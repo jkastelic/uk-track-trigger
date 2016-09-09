@@ -1,0 +1,10 @@
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_1.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_10.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_2.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_3.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_4.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_5.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_6.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_7.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_8.root
+/store/user/dcieri/ttbarPU0_stubfix_Davide/ttbar/ttbarPU0_stubfix_Davide/150728_143453/0000/step2_9.root

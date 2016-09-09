@@ -1,0 +1,15 @@
+# MC produced by adding reconstructed stubs to /RelValTTbar_14TeV/CMSSW_6_2_0_SLHC26-DES23_62_V1_LHCCRefPU140-v1/GEN-SIM-DIGI-RAW
+# For details, see https://twiki.cern.ch/twiki/bin/view/CMS/CMSUKTrkTrig#UpgradeMC 
+# and https://twiki.cern.ch/twiki/bin/view/CMS/TrackerUpgradeL1TriggerStubSample .
+# Published in DAS as /RelValTTbar_14TeV/tomalin-CMSSW_6_2_0_SLHC27_PU140_STUBS_V2-2a083eb5c8c13fe085f04fb3c57fb0e0/USER
+
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_1.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_10.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_2.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_3.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_4.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_5.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_6.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_7.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_8.root
+/store/user/tomalin//RelValTTbar_14TeV/CMSSW_6_2_0_SLHC27_PU140_STUBS_V2/151219_224720/0000/digiPlusStubs_9.root
