@@ -45,9 +45,13 @@ private:
 
     std::vector<TTStubRef> ttstubrefs;
     const std::vector<const Stub*> stubs = trk.getStubs();
-    for (size_t ii = 0; ii < stubs.size(); ii++) {
-	TTStubRef ref = *stubs.at(ii);
-	ttstubrefs.push_back(ref);
+    for (size_t ii = 0; ii < stubs.size(); ii++)
+		{
+			// TODO: remove me
+// 			TTStubRef ref = *stubs.at(ii);
+// 			ttstubrefs.push_back(ref);
+			
+			ttstubrefs.push_back( (*( stubs.at(ii) )).cmsswTTStubRef() );
     }
 
     return ttstubrefs;

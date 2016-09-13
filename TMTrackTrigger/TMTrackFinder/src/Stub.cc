@@ -15,12 +15,13 @@ using namespace std;
 
 Stub::Stub(TTStubRef ttStubRef, unsigned int index_in_vStubs, const Settings* settings, 
            const StackedTrackerGeometry*  stackedGeometry) : 
-  TTStubRef(ttStubRef), 
+//   TTStubRef(ttStubRef), 
   settings_(settings), 
   index_in_vStubs_(index_in_vStubs), 
   digitalStub_(settings),
   digitizedForGPinput_(false), // notes that stub has not yet been digitized for GP input.
-  digitizedForHTinput_(false)  // notes that stub has not yet been digitized for HT input.
+  digitizedForHTinput_(false), // notes that stub has not yet been digitized for HT input.
+	cmssswTTStubRef_(ttStubRef)
 {
   // Get coordinates of stub.
   const TTStub<Ref_PixelDigi_> *ttStubP = ttStubRef.get(); 
@@ -254,10 +255,11 @@ void Stub::reset_digitize() {
 //=== Also return boolean indicating if stub bend was outside assumed window, so stub should be rejected
 //=== and return an integer indicating how many values of bend are merged into this single one.
 
-void Stub::degradeResolution(float bend, const StackedTrackerDetId& stDetId,
-			     float& degradedBend, bool& reject, unsigned int& num) const {
-
-  if (barrel_) {
+void Stub::degradeResolution(float  bend, const  StackedTrackerDetId& stDetId,
+	float& degradedBend, bool& reject, unsigned int& num) const
+{
+  if (barrel_)
+  {
     unsigned int layer = stDetId.iLayer();
     DataCorrection::ConvertBarrelBend( bend, layer,
 				       degradedBend, reject, num);
@@ -301,16 +303,19 @@ void Stub::setFrontend(bool rejectStub) {
 
 void Stub::fillTruth(const map<edm::Ptr< TrackingParticle >, const TP* >& translateTP, edm::Handle<TTStubAssMap> mcTruthTTStubHandle, edm::Handle<TTClusterAssMap> mcTruthTTClusterHandle){
 
-  TTStubRef ttStubRef(*this); // Cast to base class
+	// TODO: remove me
+//   TTStubRef ttStubRef(*this); // Cast to base class
 
   //--- Fill assocTP_ info. If both clusters in this stub were produced by the same single tracking particle, find out which one it was.
 
-  bool genuine =  mcTruthTTStubHandle->isGenuine(ttStubRef); // Same TP contributed to both clusters?
+//   bool genuine =  mcTruthTTStubHandle->isGenuine(ttStubRef); // Same TP contributed to both clusters?
+  bool genuine =  mcTruthTTStubHandle->isGenuine( cmssswTTStubRef_ ); // Same TP contributed to both clusters?
   assocTP_ = nullptr;
 
   // Require same TP contributed to both clusters.
   if ( genuine ) {
-    edm::Ptr< TrackingParticle > tpPtr = mcTruthTTStubHandle->findTrackingParticlePtr(ttStubRef);
+//     edm::Ptr< TrackingParticle > tpPtr = mcTruthTTStubHandle->findTrackingParticlePtr(ttStubRef);
+    edm::Ptr< TrackingParticle > tpPtr = mcTruthTTStubHandle->findTrackingParticlePtr( cmssswTTStubRef_ );
     if (translateTP.find(tpPtr) != translateTP.end()) {
       assocTP_ = translateTP.at(tpPtr);
       // N.B. Since not all tracking particles are stored in InputData::vTPs_, sometimes no match will be found.
@@ -329,7 +334,7 @@ void Stub::fillTruth(const map<edm::Ptr< TrackingParticle >, const TP* >& transl
     // We consider stubs in which this TP contributed to either cluster.
 
     for (unsigned int iClus = 0; iClus <= 1; iClus++) { // Loop over both clusters that make up stub.
-       const TTClusterRef& ttClusterRef = ttStubRef->getClusterRef(iClus);
+       const TTClusterRef& ttClusterRef = cmssswTTStubRef_->getClusterRef(iClus);
 
       // Now identify all TP's contributing to either cluster in stub.
       vector< edm::Ptr< TrackingParticle > > vecTpPtr = mcTruthTTClusterHandle->findTrackingParticlePtrs(ttClusterRef);
@@ -346,7 +351,7 @@ void Stub::fillTruth(const map<edm::Ptr< TrackingParticle >, const TP* >& transl
   //--- Also note which tracking particles produced the two clusters that make up the stub
 
   for (unsigned int iClus = 0; iClus <= 1; iClus++) { // Loop over both clusters that make up stub.
-    const TTClusterRef& ttClusterRef = ttStubRef->getClusterRef(iClus);
+    const TTClusterRef& ttClusterRef = cmssswTTStubRef_->getClusterRef(iClus);
 
     bool genuineCluster =  mcTruthTTClusterHandle->isGenuine(ttClusterRef); // Only 1 TP made cluster?
     assocTPofCluster_[iClus] = nullptr;
