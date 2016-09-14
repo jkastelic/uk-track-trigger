@@ -8,7 +8,6 @@ class Settings;
 class Stub;
 class TP;
 
-using namespace std;
 
 class Sector {
 
@@ -26,7 +25,7 @@ public:
   bool insidePhi( const Stub* stub ) const;
 
   // Check if stub is within subsectors in eta that sector may be divided into.
-  vector<bool> insideEtaSubSecs( const Stub* stub) const;
+  std::vector<bool> insideEtaSubSecs( const Stub* stub) const;
 
   float phiCentre() const { return phiCentre_; } // Return phi of centre of this sector.
   float etaMin()    const { return etaMin_; } // Eta range covered by this sector.
@@ -39,7 +38,7 @@ public:
   // For performance studies, note which stubs on given tracking particle are inside the sector.
   // Returns two booleans for each stub, indicating if they are in phi & eta sectors respectively.
   // You can AND them together to check if stub is in (eta,phi) sector.
-  unordered_map<const Stub*, pair<bool, bool>> stubsInside ( const TP& tp) const;
+  std::unordered_map<const Stub*, std::pair<bool, bool>> stubsInside ( const TP& tp) const;
 
   // Count number of stubs in given tracking particle which are inside this (phi,eta) sector;
   // or inside it if only the eta cuts are applied; or inside it if only the phi cuts are applied.
@@ -85,8 +84,8 @@ private:
 
   // Possible subsectors in eta within each sector.
   unsigned int numSubSecsEta_;
-  vector<float> zOuterMinSub_;
-  vector<float> zOuterMaxSub_;
+  std::vector<float> zOuterMinSub_;
+  std::vector<float> zOuterMaxSub_;
 };
 #endif
 

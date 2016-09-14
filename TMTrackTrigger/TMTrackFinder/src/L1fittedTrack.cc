@@ -1,5 +1,7 @@
 #include "TMTrackTrigger/TMTrackFinder/interface/L1fittedTrack.h"
 
+using namespace std;
+
 // Function for merging two tracks into a single track, used by by KillDupTracks.h for duplicate track removal.
 
 L1fittedTrack L1fittedTrack::mergeTracks(const L1fittedTrack B) const {

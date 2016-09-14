@@ -1,6 +1,8 @@
 #include <TMTrackTrigger/TMTrackFinder/interface/Settings.h>
 #include "FWCore/Utilities/interface/Exception.h"
 
+using namespace std;
+
 ///=== Get configuration parameters
 
 Settings::Settings(const edm::ParameterSet& iConfig) :

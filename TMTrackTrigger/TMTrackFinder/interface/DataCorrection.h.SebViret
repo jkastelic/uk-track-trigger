@@ -8,7 +8,8 @@
 #include <set>
 #include <utility>
 
-using namespace std;
+//NOTE: THIS IS WRONG, __DON'T DO IT__
+//using namespace std;
 
 class DataCorrection {
 

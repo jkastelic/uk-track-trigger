@@ -15,7 +15,6 @@
 #include <vector>
 #include <utility>
 
-using namespace std;
 
 //=== This represents a fitted L1 track candidate found in 3 dimensions.
 //=== It gives access to the fitted helix parameters & chi2 etc.
@@ -31,7 +30,7 @@ public:
   // and the number of helix parameters being fitted (=5 if d0 is fitted, or =4 if d0 is not fitted).
   // Also specify phi sector and eta region used by track-finding code that this track was in.
   // And if track fit declared this to be a valid track (enough stubs left on track after fit etc.).
-  L1fittedTrack(const Settings* settings, const L1track3D& l1track3D, const vector<const Stub*>& stubs,
+  L1fittedTrack(const Settings* settings, const L1track3D& l1track3D, const std::vector<const Stub*>& stubs,
                 float qOverPt, float d0, float phi0, float z0, float tanLambda, 
                 float chi2, unsigned int nHelixParam,
                 unsigned int iPhiSec, unsigned int iEtaReg, bool accepted = true) :
@@ -57,7 +56,7 @@ public:
   const L1track3D&            getL1track3D()          const  {return l1track3D_;}
 
   // Get stubs on fitted track (can differ from those on HT track if track fit kicked out stubs with bad residuals)
-  const vector<const Stub*>&  getStubs()              const  {return stubs_;}  
+  const std::vector<const Stub*>&  getStubs()              const  {return stubs_;}  
   // Get number of stubs on fitted track.
   unsigned int                getNumStubs()           const  {return stubs_.size();}
   // Get number of tracker layers these stubs are in.
@@ -66,8 +65,8 @@ public:
   unsigned int             getNumKilledStubs()        const  {return l1track3D_.getNumStubs() - this->getNumStubs();}
 
   // Get Hough transform cell locations in units of bin number, corresponding to the fitted helix parameters of the track.
-  pair<unsigned int, unsigned int>  getCellLocationRphi() const  {return htRphiTmp_.getCell(this);}
-  pair<unsigned int, unsigned int>  getCellLocationRz()   const  {throw cms::Exception("L1fittedTrack::getCellLocationRz() is not implemented."); return pair<unsigned int, unsigned int>(999,999);}
+  std::pair<unsigned int, unsigned int>  getCellLocationRphi() const  {return htRphiTmp_.getCell(this);}
+  std::pair<unsigned int, unsigned int>  getCellLocationRz()   const  {throw cms::Exception("L1fittedTrack::getCellLocationRz() is not implemented."); return std::pair<unsigned int, unsigned int>(999,999);}
 
   //--- Get information about its association (if any) to a truth Tracking Particle.
   //--- Can differ from that of corresponding HT track, if track fit kicked out stubs with bad residuals.
@@ -75,7 +74,7 @@ public:
   // Get best matching tracking particle (=nullptr if none).
   const TP*                   getMatchedTP()          const  {return matchedTP_;}
   // Get the matched stubs with this Tracking Particle
-  const vector<const Stub*>&  getMatchedStubs()       const  {return matchedStubs_;}
+  const std::vector<const Stub*>&  getMatchedStubs()       const  {return matchedStubs_;}
   // Get number of matched stubs with this Tracking Particle
   unsigned int                getNumMatchedStubs()    const  {return matchedStubs_.size();}
   // Get number of tracker layers with matched stubs with this Tracking Particle 
@@ -88,7 +87,7 @@ public:
     if (nStubCount > 0) { // Original HT track candidate did match a truth particle
       const TP* tp = l1track3D_.getMatchedTP(); 
       for (const Stub* s : stubs_) {
-	set<const TP*> assTPs = s->assocTPs();
+	std::set<const TP*> assTPs = s->assocTPs();
         if (assTPs.find(tp) != assTPs.end()) nStubCount--; // We found a stub matched to original truth particle that survived fit.
       }
     }
@@ -177,11 +176,11 @@ private:
   const Settings*                    settings_; 
 
   //--- The 3D hough-transform track candidate which was fitted.
-  L1track3D             l1track3D_;
+  L1track3D                l1track3D_;
 
   //--- The stubs on the fitted track (can differ from those on HT track if fit kicked off stubs with bad residuals)
-  vector<const Stub*>   stubs_;
-  unsigned int          nLayers_;
+  std::vector<const Stub*> stubs_;
+  unsigned int             nLayers_;
 
   HTrphi shit;
 
@@ -201,9 +200,9 @@ private:
   unsigned int iEtaReg_; 
 
   //--- Information about its association (if any) to a truth Tracking Particle.
-  const TP*             matchedTP_;
-  vector<const Stub*>   matchedStubs_;
-  unsigned int          nMatchedLayers_;
+  const TP*                matchedTP_;
+  std::vector<const Stub*> matchedStubs_;
+  unsigned int             nMatchedLayers_;
 
   //--- Has the track fit declared this to be a valid track?
   bool accepted_;

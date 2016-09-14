@@ -2,8 +2,10 @@
 
 // Function for merging two tracks into a single track, used by by KillDupTracks.h for duplicate track removal.
 
-L1track2D L1track2D::mergeTracks(const L1track2D B) const {
-
+L1track2D L1track2D::mergeTracks(const L1track2D B) const
+{
+	using namespace std;
+	
   vector<const Stub*> aStubs=this->getStubs(), bStubs=B.getStubs();
 
   // Since a "set" contains no duplicates, add stubs to a set to eliminate the duplicates.

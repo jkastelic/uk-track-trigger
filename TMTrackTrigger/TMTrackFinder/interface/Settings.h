@@ -6,7 +6,6 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
 
 // Stores all configuration parameters + some hard-wired constants.
 
@@ -22,7 +21,7 @@ public:
   double               genMaxAbsEta()            const   {return genMaxAbsEta_;}
   double               genMaxVertR()             const   {return genMaxVertR_;}
   double               genMaxVertZ()             const   {return genMaxVertZ_;}
-  vector<int>          genPdgIds()               const   {return genPdgIds_;}
+  std::vector<int>     genPdgIds()               const   {return genPdgIds_;}
   // Additional cut on MC truth tracks for algorithmic tracking efficiency measurements.
   unsigned int         genMinStubLayers()        const   {return genMinStubLayers_;} // Min. number of layers TP made stub in.
 
@@ -74,7 +73,7 @@ public:
 
   //=== Definition of eta sectors.
 
-  vector<double>       etaRegions()              const   {return etaRegions_;} // Boundaries of eta regions de
+  std::vector<double>  etaRegions()              const   {return etaRegions_;} // Boundaries of eta regions de
   unsigned int         numEtaRegions()           const   {return (etaRegions_.size() - 1);}
   double               chosenRofZ()              const   {return chosenRofZ_;} // Use z of track at this radius for assignment of stubs to phi sectors & also for one of the axes of the r-z HT. 
   double               beamWindowZ()             const   {return beamWindowZ_;} // Half-width of window supposed to contain beam-spot in z.
@@ -247,14 +246,14 @@ public:
   bool                 writeOutEdmFile()         const   {return writeOutEdmFile_;}
 
   //=== Hard-wired constants
-  double               pitchPS()                 const   {cout<<"ERROR: Use Stub::stripPitch instead of Settings::pitchPS!";exit(1);return 0.;} // pitch of PS modules - OBSOLETE
-  double               pitch2S()                 const   {cout<<"ERROR: Use Stub::stripPitch instead of Settings::pitch2S!";exit(1);return 0.;} // pitch of 2S modules - OBSOLETE
+  double               pitchPS()                 const   {std::cout<<"ERROR: Use Stub::stripPitch instead of Settings::pitchPS!";exit(1);return 0.;} // pitch of PS modules - OBSOLETE
+  double               pitch2S()                 const   {std::cout<<"ERROR: Use Stub::stripPitch instead of Settings::pitch2S!";exit(1);return 0.;} // pitch of 2S modules - OBSOLETE
   double               invPtToInvR()             const   {return (this->getBfield())*(3.0E8/1.0E11);} // B*c/1E11 - converts q/Pt to 1/radius_of_curvature
   double               invPtToDphi()             const   {return (this->getBfield())*(3.0E8/2.0E11);} // B*c/2E11 - converts q/Pt to track angle at some radius from beamline.  
   double               trackerOuterRadius()      const   {return 109.2;}  // max. occuring stub radius.
   double               trackerInnerRadius()      const   {return  21.3;}  // min. occuring stub radius.
   double               trackerHalfLength()       const   {return 270.;}  // half-length of tracker. 
-  double               stripLength2S()           const   {cout<<"ERROR: Use Stub::stripLength instead of Settings::stripLength2S!"<<endl;exit(1);return 0.;}    // Strip length of 2S modules. - OBSOLETE
+  double               stripLength2S()           const   {std::cout<<"ERROR: Use Stub::stripLength instead of Settings::stripLength2S!"<<std::endl;exit(1);return 0.;}    // Strip length of 2S modules. - OBSOLETE
   double               layerIDfromRadiusBin()    const   {return 6.;}    // When counting stubs in layers, actually histogram stubs in distance from beam-line with this bin size.
   double               crazyStubCut()            const   {return 0.01;}  // Stubs differing from TP trajectory by more than this in phi are assumed to come from delta rays etc.
 
@@ -286,7 +285,7 @@ private:
   double               genMaxAbsEta_;
   double               genMaxVertR_;
   double               genMaxVertZ_;
-  vector<int>          genPdgIds_;
+  std::vector<int>     genPdgIds_;
   unsigned int         genMinStubLayers_;
 
   // Cuts applied to stubs before arriving in L1 track finding board.
@@ -324,7 +323,7 @@ private:
   bool                 handleStripsPhiSec_;
 
   // Definition of eta sectors.
-  vector<double>       etaRegions_;                                
+  std::vector<double>  etaRegions_;                                
   double               chosenRofZ_;  
   double               beamWindowZ_;
   bool                 handleStripsEtaSec_;

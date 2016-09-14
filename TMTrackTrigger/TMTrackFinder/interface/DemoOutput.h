@@ -11,7 +11,6 @@
 
 class Settings;
 
-using namespace std;
 
 //==================================================================================================
 /**
@@ -24,25 +23,33 @@ class DemoOutput {
 
 public:
 
-  typedef std::vector<l1t::HardwareStub>           HwStubCollection;
-  typedef std::vector<l1t::HardwareTrack>          HwTrackCollection;
+	typedef std::vector<l1t::HardwareStub>           HwStubCollection;
+	typedef std::vector<l1t::HardwareTrack>          HwTrackCollection;
 
-  DemoOutput(const Settings* settings) : settings_(settings) {}
+	DemoOutput(const Settings* settings) : settings_(settings) {}
 
-  // Create EDM collections of all stubs and of the subset of stubs that are on L1 tracks, stored in the HardwareStub class.
-  void getStubCollection(const matrix<HTpair>& mHtPairs,
-   	   	         std::auto_ptr<HwStubCollection>& hwStubs, std::auto_ptr<HwStubCollection>& hwStubsOnTracks);	
+	// Create EDM collections of all stubs and of the subset of stubs that are on L1 tracks, stored in the HardwareStub class.
+	void getStubCollection(
+		const boost::numeric::ublas::matrix<HTpair>& mHtPairs,
+		std::auto_ptr<HwStubCollection>& hwStubs,
+		std::auto_ptr<HwStubCollection>& hwStubsOnTracks
+	);
 
-  // Create EDM collectiosn of all stubs produced by all tracking particles, or by the subset of tracking particles used
-  // for the algorithmic tracking efficiency measurement. Store the results in the HardwareTrack class.
-  void getTPstubCollection(const matrix<HTpair>& mHtPairs, const matrix<Sector>& mSectors, const vector<TP>& vTPs,
-			   std::auto_ptr<HwTrackCollection>& hwStubsOnTP, std::auto_ptr<HwTrackCollection>& hwStubsOnTPforAlgEff);	
+	// Create EDM collectiosn of all stubs produced by all tracking particles, or by the subset of tracking particles used
+	// for the algorithmic tracking efficiency measurement. Store the results in the HardwareTrack class.
+	void getTPstubCollection(
+		const boost::numeric::ublas::matrix<HTpair>& mHtPairs,
+		const boost::numeric::ublas::matrix<Sector>& mSectors,
+		const std::vector<TP>& vTPs,
+		std::auto_ptr<HwTrackCollection>& hwStubsOnTP,
+		std::auto_ptr<HwTrackCollection>& hwStubsOnTPforAlgEff
+	);
 
-  ~DemoOutput() {}
+	~DemoOutput() {}
 
 private:
 
-  const Settings* settings_;
+	const Settings* settings_;
 };
 #endif
 

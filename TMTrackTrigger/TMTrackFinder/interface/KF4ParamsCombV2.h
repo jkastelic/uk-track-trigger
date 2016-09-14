@@ -10,7 +10,7 @@ class KF4ParamsCombV2 : public KF4ParamsComb{
 	enum PAR_IDS { BETA, Z0P, R0P, RHO0 };  
 	enum MEAS_IDS { Z, R };
     public:
-	KF4ParamsCombV2(const Settings* settings, const string &fitterName );
+	KF4ParamsCombV2(const Settings* settings, const std::string &fitterName );
 	~KF4ParamsCombV2(){}
 	std::string getParams();
 

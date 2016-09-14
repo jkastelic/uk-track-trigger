@@ -17,7 +17,7 @@ static double wrapRadian( double t ){
     return t;
 }
 
-KF4ParamsComb::KF4ParamsComb(const Settings* settings, const uint nPar, const string &fitterName ) : L1KalmanComb(settings, nPar, fitterName ){
+KF4ParamsComb::KF4ParamsComb(const Settings* settings, const uint nPar, const std::string &fitterName ) : L1KalmanComb(settings, nPar, fitterName ){
 
     hdxmin[1] = -1.e-2;
     hdxmax[1] = +1.e-2;

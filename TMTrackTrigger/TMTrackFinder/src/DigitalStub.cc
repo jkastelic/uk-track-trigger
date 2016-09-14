@@ -68,8 +68,10 @@ DigitalStub::DigitalStub(const Settings* settings) :
 void DigitalStub::init(float phi_orig, float r_orig, float z_orig, float dphi_orig, float rho_orig,
 		       unsigned int min_qOverPt_bin_orig, unsigned int max_qOverPt_bin_orig, 
 		       unsigned int layerID, unsigned int layerIDreduced, float bend_orig,
-		       float pitch, float sep) {
-
+		       float pitch, float sep)
+{
+	using namespace std;
+	
   ranInit_ = true; // Note we ran init().
   // Variables in HT.
   phi_orig_             = phi_orig; 
@@ -287,7 +289,10 @@ void DigitalStub::quickMakeHTinput(int iPhiSec) {
 
 //=== Check that stub coords. are within assumed digitization range.
 
-void DigitalStub::checkInRange() const {
+void DigitalStub::checkInRange() const
+{
+	using namespace std;
+	
   // All ranges are centred at zero, except for rho, which is +ve-definate.
   if (fabs(phiS_orig_) >= 0.5*phiSRange_)   throw cms::Exception("DigitalStub: Stub phiS is out of assumed digitization range.")<<" |phiS| = " <<fabs(phiS_orig_) <<" > "<<0.5*phiSRange_<<endl;  
   if (fabs(rt_orig_)   >= 0.5*rtRange_)     throw cms::Exception("DigitalStub: Stub rT is out of assumed digitization range.")  <<" |rt| = "   <<fabs(rt_orig_)   <<" > "<<0.5*rtRange_  <<endl;  
@@ -300,7 +305,10 @@ void DigitalStub::checkInRange() const {
 
 //=== Check that digitisation followed by undigitisation doesn't change significantly the stub coordinates.
 
-void DigitalStub::checkAccuracy() const {
+void DigitalStub::checkAccuracy() const
+{
+	using namespace std;
+	
   float TA = reco::deltaPhi(phi_, phi_orig_);
   float TB = r_    - r_orig_;
   float TC = z_    - z_orig_;

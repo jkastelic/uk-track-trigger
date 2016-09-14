@@ -11,7 +11,6 @@ class Stub;
 class TP;
 class L1fittedTrack;
 
-using namespace std;
 
 //=== The r-phi Hough Transform array for a single (eta,phi) sector.
 //===
@@ -30,7 +29,7 @@ public:
 
   // Add stub to HT array.
   // If eta subsectors are being used within each sector, specify which ones the stub is compatible with.
-  void store( const Stub* stub, const vector<bool>& inEtaSubSecs);
+  void store( const Stub* stub, const std::vector<bool>& inEtaSubSecs);
 
   // Termination. Causes HT array to search for tracks etc.
   // ... function end() is in base class ...
@@ -44,20 +43,21 @@ public:
   // Get the values of the track helix params corresponding to middle of a specified HT cell (i,j).
   // The helix parameters returned will be those corresponding to the two axes of the HT array.
   // So they might be (q/pt, phi0) or (q/pt, phi65) etc. depending on the configuration.
-  pair<float, float> helix2Dhough       (unsigned int i, unsigned int j) const;
+  
+  std::pair<float, float> helix2Dhough       (unsigned int i, unsigned int j) const;
 
   // Get the values of the track helix params corresponding to middle of a specified HT cell (i,j).
   // The helix parameters returned will be always be (q/pt, phi0), irrespective of how the axes
   // of the HT array are defined.
-  pair<float, float> helix2Dconventional(unsigned int i, unsigned int j) const;
+  std::pair<float, float> helix2Dconventional(unsigned int i, unsigned int j) const;
 
   // Which cell in HT array should this TP be in, based on its true trajectory?
   // Returns (-1,-1) if TP not expected to be in any cell in this array.
-  pair<int, int> trueCell( const TP* tp ) const;
+  std::pair<int, int> trueCell( const TP* tp ) const;
 
   // Which cell in HT array should this fitted track be in, based on its fitted trajectory?
   // Returns (-1,-1) if fitted track not expected to be in any cell in this array.
-  pair<int, int> getCell( const L1fittedTrack* fitTrk ) const;
+  std::pair<int, int> getCell( const L1fittedTrack* fitTrk ) const;
 
   // Check if specified cell has been merged with its 2x2 neighbours into a single cell,
   // as it is in low Pt region.
@@ -75,7 +75,7 @@ public:
 private:
 
   // For a given Q/Pt bin, find the range of phi bins that a given stub is consistent with.
-  pair<unsigned int, unsigned int> iPhiRange( const Stub* stub, unsigned int iQoverPtBin, bool debug = false) const;
+  std::pair<unsigned int, unsigned int> iPhiRange( const Stub* stub, unsigned int iQoverPtBin, bool debug = false) const;
 
   // Check that limitations of firmware would not prevent stub being stored correctly in this HT column.
   void countFirmwareErrors(unsigned int iQoverPtBin, unsigned int iPhiTrkBinMin, unsigned int iPhiTrkBinMax);
@@ -89,7 +89,7 @@ private:
   // Define the order in which the hardware processes rows of the HT array when it outputs track candidates.
   // Currently corresponds to highest Pt tracks first.
   // If two tracks have the same Pt, the -ve charge one is output before the +ve charge one.
-  vector<unsigned int> rowOrder(unsigned int numRows) const;
+  std::vector<unsigned int> rowOrder(unsigned int numRows) const;
 
 private:
 

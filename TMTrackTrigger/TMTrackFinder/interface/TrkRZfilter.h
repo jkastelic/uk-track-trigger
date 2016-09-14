@@ -9,7 +9,7 @@
 class Settings;
 class Stub;
 
-using namespace std;
+
 
 //=== This class runs filters in track candidates previously found by the r-phi Hough transform
 //=== e.g. Filters requiring the stubs to be consistent with a straight line in the r-z plane.
@@ -35,15 +35,15 @@ public:
   // Filters track candidates (found by the r-phi Hough transform), removing inconsistent stubs from the tracks, 
   // also killing some of the tracks altogether if they are left with too few stubs.
   // Also adds an estimate of r-z helix parameters to the selected track objects, if the filters used provide this.
-  vector<L1track2D> filterTracks(const vector<L1track2D>& tracks);
+  std::vector<L1track2D> filterTracks(const std::vector<L1track2D>& tracks);
 
   //=== Extra information about each track input to filter. (Only use after you have first called filterTracks).
 
   // Number of seed combinations considered by the ZTrk Filter for each input track.
-  vector<unsigned int> numZtrkSeedCombsPerTrk() const {return numZtrkSeedCombsPerTrk_; }
+  std::vector<unsigned int> numZtrkSeedCombsPerTrk() const {return numZtrkSeedCombsPerTrk_; }
   // Number of seed combinations considered by the Seed Filter for each input track.
-  vector<unsigned int> numSeedCombsPerTrk() const {return numSeedCombsPerTrk_; }
-  vector<unsigned int> numGoodSeedCombsPerTrk() const {return numGoodSeedCombsPerTrk_; } // Only counts seeds compatible with beam-spot.
+  std::vector<unsigned int> numSeedCombsPerTrk() const {return numSeedCombsPerTrk_; }
+  std::vector<unsigned int> numGoodSeedCombsPerTrk() const {return numGoodSeedCombsPerTrk_; } // Only counts seeds compatible with beam-spot.
 
 
 private:
@@ -57,11 +57,11 @@ private:
   //--- Filters returning filtered stubs based on input ones.
  
   // Produce a filtered collection of stubs from the input ones (on original track) that all have consistent rapidity
-  vector<const Stub*> etaFilter ( const vector<const Stub*>& stubs, float trkQoverPt ) const;
+  std::vector<const Stub*> etaFilter ( const std::vector<const Stub*>& stubs, float trkQoverPt ) const;
   // Produce a filtered collection of stubs from the input ones (on original track) that all have consistent zR.
-  vector<const Stub*> zTrkFilter (const vector<const Stub*>& stubs, float trkQoverPt );
+  std::vector<const Stub*> zTrkFilter (const std::vector<const Stub*>& stubs, float trkQoverPt );
   // Produce a filtered collection of stubs from the input ones (on original track)that are consistent with a straight line in r-z using tracklet algo.
-  vector<const Stub*> seedFilter (const vector<const Stub*>& stubs, float trkQoverPt );
+  std::vector<const Stub*> seedFilter (const std::vector<const Stub*>& stubs, float trkQoverPt );
 
 private:
 
@@ -91,11 +91,11 @@ private:
   bool  keepAllSeed_;
 
   // Number of seed combinations considered by the ZTrk Filter, for each input track.
-  vector<unsigned int>  numZtrkSeedCombsPerTrk_;
+  std::vector<unsigned int>  numZtrkSeedCombsPerTrk_;
 
   // Number of seed combinations considered by the Seed Filter, for each input track.
-  vector<unsigned int>  numSeedCombsPerTrk_;
-  vector<unsigned int>  numGoodSeedCombsPerTrk_;
+  std::vector<unsigned int>  numSeedCombsPerTrk_;
+  std::vector<unsigned int>  numGoodSeedCombsPerTrk_;
   unsigned int maxSeedCombinations_;
   bool         zTrkSectorCheck_;
 

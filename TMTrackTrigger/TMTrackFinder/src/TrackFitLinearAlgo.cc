@@ -43,7 +43,8 @@ std::string TrackFitLinearAlgo::getParams() {
 //=== Fit a track candidate obtained from the Hough Transform.
 //=== Specify which phi sector and eta region it is in.
 L1fittedTrack TrackFitLinearAlgo::fit(const L1track3D& l1track3D, unsigned int iPhiSec, unsigned int iEtaReg) {
- 
+  using namespace std;
+  
   rinv_= invPtToInvR_*l1track3D.qOverPt();
   phi0_= l1track3D.phi0();
   z0_ = l1track3D.z0();

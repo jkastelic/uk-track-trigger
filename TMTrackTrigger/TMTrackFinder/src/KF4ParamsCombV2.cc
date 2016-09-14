@@ -14,7 +14,7 @@ static double wrapRadian( double t ){
     }
     return t;
 }
-KF4ParamsCombV2::KF4ParamsCombV2(const Settings* settings, const string &fitterName ) : 
+KF4ParamsCombV2::KF4ParamsCombV2(const Settings* settings, const std::string &fitterName ) : 
     KF4ParamsComb(settings, 4, fitterName ){
 
     hkfxmin[0] = -15000.;
@@ -188,8 +188,10 @@ std::vector<double> KF4ParamsCombV2::ErrMeas(const Stub* stub, std::vector<doubl
     }
     return e;
 }
-TMatrixD KF4ParamsCombV2::PddMeas(const Stub* stub, const kalmanState *state )const{
-
+TMatrixD KF4ParamsCombV2::PddMeas(const Stub* stub, const kalmanState *state )const
+{
+	using namespace std;
+	
     const std::vector<double> &x = state->xa();
     TMatrixD      xx( 4, 4 ); 
     for(unsigned i=0; i < 4; i++ )
@@ -250,7 +252,7 @@ bool KF4ParamsCombV2::isGoodState( const kalmanState &state )const
 {
     unsigned nStubs = state.stubs().size();
     bool goodState( true );
-    std::map<string,double> x = getTrackParams( &state );
+    std::map<std::string, double> x = getTrackParams( &state );
     double z0=fabs( x["z0"] ); 
     if( z0 > 20. ) goodState = false;
     /*

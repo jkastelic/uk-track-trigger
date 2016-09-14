@@ -35,7 +35,7 @@ static double wrapRadian( double t ){
     }
     return t;
 }
-KF5ParamsComb::KF5ParamsComb(const Settings* settings, const string &fitterName ) : 
+KF5ParamsComb::KF5ParamsComb(const Settings* settings, const std::string &fitterName ) : 
     L1KalmanComb(settings, 5, fitterName ){
 
     hxmin[0] = -0.05;
@@ -462,7 +462,7 @@ bool KF5ParamsComb::isGoodState( const kalmanState &state )const
 
 }
 
-double KF5ParamsComb::getRofState( unsigned layerId, const vector<double> &xa )const
+double KF5ParamsComb::getRofState( unsigned layerId, const std::vector<double> &xa )const
 {
     double r(0), z(0);
 

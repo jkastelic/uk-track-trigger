@@ -820,8 +820,8 @@ void Histos::fillInputData(const InputData& inputData) {
 
 //=== Fill histograms checking if (eta,phi) sector definition choices are good.
 
-void Histos::fillEtaPhiSectors(const InputData& inputData, const matrix<Sector>& mSectors) {
-
+void Histos::fillEtaPhiSectors(const InputData& inputData, const boost::numeric::ublas::matrix<Sector>& mSectors)
+{
   const vector<const Stub*>& vStubs = inputData.getStubs();
   const vector<TP>&          vTPs   = inputData.getTPs();
 
@@ -924,8 +924,10 @@ void Histos::fillEtaPhiSectors(const InputData& inputData, const matrix<Sector>&
 
 //=== Fill histograms checking filling of r-phi HT array.
 
-void Histos::fillRphiHT(const matrix<HTpair>& mHtPairs) {
+void Histos::fillRphiHT(const boost::numeric::ublas::matrix<HTpair>& mHtPairs) {
 
+	using namespace boost::numeric::ublas;
+	
   //--- Loop over (eta,phi) sectors, counting the number of stubs in the HT array of each.
  
   for (unsigned int iEtaReg = 0; iEtaReg < settings_->numEtaRegions(); iEtaReg++) {
@@ -980,8 +982,10 @@ void Histos::fillRphiHT(const matrix<HTpair>& mHtPairs) {
 
 //=== Fill histograms about r-z track filters (or other filters applied after r-phi HT array).
 
-void Histos::fillRZfilters(const matrix<HTpair>& mHtPairs) {
+void Histos::fillRZfilters(const boost::numeric::ublas::matrix<HTpair>& mHtPairs) {
 
+	using namespace boost::numeric::ublas;
+	
   // Only fill histograms if one of the r-z filters was in use.
   if (settings_->useZTrkFilter() || settings_->useSeedFilter()) {
 
@@ -991,7 +995,7 @@ void Histos::fillRZfilters(const matrix<HTpair>& mHtPairs) {
 
 	if (settings_->useZTrkFilter()) {
 	  // Check number of track seeds per sector that r-z "Ztrk" filter checked.
-	  const vector<unsigned int>  numSeedComb = htPair.getRZfilters().numZtrkSeedCombsPerTrk();
+	  const std::vector<unsigned int>  numSeedComb = htPair.getRZfilters().numZtrkSeedCombsPerTrk();
 	  for (const unsigned int& num : numSeedComb) {
 	    hisNumZtrkSeedCombinations_->Fill(num) ;
 	  }
@@ -999,12 +1003,12 @@ void Histos::fillRZfilters(const matrix<HTpair>& mHtPairs) {
 
 	if (settings_->useSeedFilter()) {
 	  // Check number of track seeds per sector that r-z "seed" filter checked.
-	  const vector<unsigned int>  numSeedComb = htPair.getRZfilters().numSeedCombsPerTrk();
+	  const std::vector<unsigned int>  numSeedComb = htPair.getRZfilters().numSeedCombsPerTrk();
 	  for (const unsigned int& num : numSeedComb) {
 	    hisNumSeedCombinations_->Fill(num) ;
 	  }
 	  // Same again, but this time only considering seeds the r-z filters defined as "good".
-	  const vector<unsigned int>  numGoodSeedComb = htPair.getRZfilters().numGoodSeedCombsPerTrk();
+	  const std::vector<unsigned int>  numGoodSeedComb = htPair.getRZfilters().numGoodSeedCombsPerTrk();
 	  for (const unsigned int& num : numGoodSeedComb) {
 	    hisNumGoodSeedCombinations_->Fill(num) ;
 	  }
@@ -1014,12 +1018,12 @@ void Histos::fillRZfilters(const matrix<HTpair>& mHtPairs) {
 	if (settings_->useZTrkFilter()) {
 	  const HTrphi& htRphi = htPair.getRphiHT();
 	  // Consider all genuine tracks found by r-phi HT (since they are input to Ztrk filter).
-	  const vector<L1track2D>& tracksRphi = htRphi.trackCands2D();
+	  const std::vector<L1track2D>& tracksRphi = htRphi.trackCands2D();
 	  for (const L1track2D& trk : tracksRphi) {
 	    const TP* assocTP = trk.getMatchedTP();
 	    if (assocTP != nullptr) {
 	      if (assocTP->useForAlgEff()) {
-		const vector < const Stub* > stubs = trk.getStubs();
+		const std::vector < const Stub* > stubs = trk.getStubs();
 		for(const Stub* s : stubs) {
 		  if (s->layerId()==1)  {
 		    for(const Stub* s2 : stubs){
@@ -1053,21 +1057,27 @@ void Histos::fillRZfilters(const matrix<HTpair>& mHtPairs) {
 
 //=== Fill histograms studying track candidates found by Hough Transform.
 
-void Histos::fillTrackCands(const InputData& inputData, const matrix<Sector>& mSectors, const matrix<HTpair>& mHtPairs) {
+void Histos::fillTrackCands(
+	const InputData& inputData,
+	const boost::numeric::ublas::matrix<Sector>& mSectors,
+	const boost::numeric::ublas::matrix<HTpair>& mHtPairs)
+{
 
   // Fill histograms for studying freak, extra large events.
   this->fillStudyBusyEvents(inputData, mSectors, mHtPairs);
 
   // Now fill histograms for studying tracking in general.
 
-  const vector<TP>&  vTPs = inputData.getTPs();
+  const std::vector<TP>&  vTPs = inputData.getTPs();
 
   //=== Count track candidates found in the tracker. 
 
   unsigned int nTracks = 0;
   const unsigned int numPhiOctants = 8;
-  vector<unsigned int> nTracksInOctant(numPhiOctants, 0);
-  for (unsigned int iEtaReg = 0; iEtaReg < settings_->numEtaRegions(); iEtaReg++) {
+	
+  std::vector<unsigned int> nTracksInOctant(numPhiOctants, 0);
+  
+	for (unsigned int iEtaReg = 0; iEtaReg < settings_->numEtaRegions(); iEtaReg++) {
     unsigned int nTracksInEtaReg = 0;
     for (unsigned int iPhiSec = 0; iPhiSec < settings_->numPhiSectors(); iPhiSec++) {
       const HTpair& htPair = mHtPairs(iPhiSec, iEtaReg);
@@ -1091,9 +1101,10 @@ void Histos::fillTrackCands(const InputData& inputData, const matrix<Sector>& mS
   //=== Count stubs per event assigned to track candidates in the Tracker
 
   unsigned int nStubsOnTracks = 0;
-  vector<unsigned int> nStubsOnTracksInOctant(numPhiOctants, 0);
-  map< unsigned int, set<const Stub*> > uniqueStubsOnTracksInOctant;
-  for (unsigned int iEtaReg = 0; iEtaReg < settings_->numEtaRegions(); iEtaReg++) {
+  std::vector<unsigned int> nStubsOnTracksInOctant(numPhiOctants, 0);
+  std::map< unsigned int, set<const Stub*> > uniqueStubsOnTracksInOctant;
+  
+	for (unsigned int iEtaReg = 0; iEtaReg < settings_->numEtaRegions(); iEtaReg++) {
     unsigned int nStubsOnTracksInEtaReg = 0;
     for (unsigned int iPhiSec = 0; iPhiSec < settings_->numPhiSectors(); iPhiSec++) {
       unsigned int iOctant = floor(iPhiSec*numPhiOctants/(settings_->numPhiSectors())); // phi octant number
@@ -1404,9 +1415,11 @@ void Histos::fillTrackCands(const InputData& inputData, const matrix<Sector>& mS
 // (If string = "mystery", reason for loss unknown. This may be a result of reconstruction of one 
 // track candidate preventing reconstruction of another. e.g. Due to duplicate track removal).
 
-map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, const matrix<Sector>& mSectors, const matrix<HTpair>& mHtPairs) const {
+map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, const boost::numeric::ublas::matrix<Sector>& mSectors, const boost::numeric::ublas::matrix<HTpair>& mHtPairs) const {
 
-  const vector<TP>&  vTPs = inputData.getTPs();
+	using namespace boost::numeric::ublas;
+	
+  const std::vector<TP>&  vTPs = inputData.getTPs();
 
   map<const TP*, string> diagnosis;
 
@@ -1432,7 +1445,7 @@ map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, cons
       } else {
         
 	//--- Check if TP was still reconstructable after cuts applied to stubs by front-end electronics.
-	vector<const Stub*> fePassStubs;
+	std::vector<const Stub*> fePassStubs;
 	for (const Stub* s : tp.assocStubs()) {
 	  if (s->frontendPass()) fePassStubs.push_back(s);
         }
@@ -1450,17 +1463,17 @@ map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, cons
 	  bool insideEtaRegPass = false;
 	  unsigned int nLayers = 0;
 	  // The next to variables are vectors in case track could be recontructed in more than one sector.
-	  vector< vector<const Stub*> > insideSecStubs;
-	  vector<const Sector*> sectorBest;
+	  std::vector< std::vector<const Stub*> > insideSecStubs;
+	  std::vector<const Sector*> sectorBest;
 	  for (unsigned int iPhiSec = 0; iPhiSec < settings_->numPhiSectors(); iPhiSec++) {
 	    for (unsigned int iEtaReg = 0; iEtaReg < settings_->numEtaRegions(); iEtaReg++) {
 
 	      const Sector& sector = mSectors(iPhiSec, iEtaReg);
 
 	      // Get stubs on given tracking particle which are inside this (phi,eta) sector;
-	      vector<const Stub*> insideSecStubsTmp;
-	      vector<const Stub*> insidePhiSecStubsTmp;
-	      vector<const Stub*> insideEtaRegStubsTmp;
+	      std::vector<const Stub*> insideSecStubsTmp;
+	      std::vector<const Stub*> insidePhiSecStubsTmp;
+	      std::vector<const Stub*> insideEtaRegStubsTmp;
 	      for (const Stub* s: fePassStubs) {
 		if (sector.inside(s))    insideSecStubsTmp.push_back(s);
 		if (sector.insidePhi(s)) insidePhiSecStubsTmp.push_back(s);
@@ -1512,7 +1525,7 @@ map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, cons
 	      htRphiUnfiltered.disableBendFilter(); // Switch off bend filter
 	      for (const Stub* s: insideSecStubs[iSec]) {
 		// Check which eta subsectors within the sector the stub is compatible with (if subsectors being used).
-		const vector<bool> inEtaSubSecs =  sectorBest[iSec]->insideEtaSubSecs( s );
+		const std::vector<bool> inEtaSubSecs =  sectorBest[iSec]->insideEtaSubSecs( s );
 		htRphiUnfiltered.store(s, inEtaSubSecs);
 	      }
 	      htRphiUnfiltered.end();
@@ -1537,7 +1550,7 @@ map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, cons
 		htPair.init(settings_, sectorBest[iSec]->etaMin(), sectorBest[iSec]->etaMax(), sectorBest[iSec]->phiCentre());
 		for (const Stub* s: insideSecStubs[iSec]) {
 		  // Check which eta subsectors within the sector the stub is compatible with (if subsectors being used).
-		  const vector<bool> inEtaSubSecs =  sectorBest[iSec]->insideEtaSubSecs( s );
+		  const std::vector<bool> inEtaSubSecs =  sectorBest[iSec]->insideEtaSubSecs( s );
 		  htPair.store(s, inEtaSubSecs);
 		}
 		htPair.end();
@@ -1547,9 +1560,9 @@ map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, cons
 		// Check if track r-z filters run after r-phi HT kept track.
 		if (rphiHTpass) {
 		  // Do so by getting tracks found by r-phi HT and running them through r-z filter.
-		  const vector<L1track2D>& trksRphi     = htPair.getRphiHT().trackCands2D();
+		  const std::vector<L1track2D>& trksRphi     = htPair.getRphiHT().trackCands2D();
 		  TrkRZfilter rzFilter(htPair.getRZfilters());
-		  const vector<L1track2D>& trksRphiFilt = rzFilter.filterTracks(trksRphi);
+		  const std::vector<L1track2D>& trksRphiFilt = rzFilter.filterTracks(trksRphi);
 		  if (trksRphiFilt.size() > 0) rzFilterPass = true;
 		}
 		// Check if  r-phi * r-z HTs found the track
@@ -1614,17 +1627,21 @@ map<const TP*, string> Histos::diagnoseTracking(const InputData& inputData, cons
 
 //=== Fill histograms studying freak, large events with too many stubs.
 
-void Histos::fillStudyBusyEvents(const InputData& inputData, const matrix<Sector>& mSectors, const matrix<HTpair>& mHtPairs) {
+void Histos::fillStudyBusyEvents(
+	const InputData& inputData,
+	const boost::numeric::ublas::matrix<Sector>& mSectors,
+	const boost::numeric::ublas::matrix<HTpair>& mHtPairs)
+{
 
   const unsigned int numStubsCut = settings_->busySectorNumStubs();   // No. of stubs per HT array the hardware can output.
   const bool         eachCharge  = settings_->busySectorEachCharge(); // +ve & -ve tracks output on separate optical links?
 
-  const vector<const Stub*>&  vStubs = inputData.getStubs();
-  const vector<TP>&           vTPs   = inputData.getTPs();
+  const std::vector<const Stub*>&  vStubs = inputData.getStubs();
+  const std::vector<TP>&           vTPs   = inputData.getTPs();
 
   // Create map containing L1 tracks found in whole of tracker together with flag indicating if the
   // track was killed because it was in a busy sector.
-  map<const L1track3D*, bool> trksInEntireTracker;
+  std::map<const L1track3D*, bool> trksInEntireTracker;
 
   unsigned int nBusySecIn  = 0;
   unsigned int nBusySecOut = 0;
@@ -1633,7 +1650,7 @@ void Histos::fillStudyBusyEvents(const InputData& inputData, const matrix<Sector
     for (unsigned int iPhiSec = 0; iPhiSec < settings_->numPhiSectors(); iPhiSec++) {
       const Sector& sector = mSectors(iPhiSec, iEtaReg);
       const HTpair& htPair = mHtPairs(iPhiSec, iEtaReg);
-      const vector<L1track3D>& tracks = htPair.trackCands3D();
+      const std::vector<L1track3D>& tracks = htPair.trackCands3D();
 
       //--- Look for too many stubs input to sector.
 
@@ -1654,14 +1671,14 @@ void Histos::fillStudyBusyEvents(const InputData& inputData, const matrix<Sector
 
       // Order tracks in increasing order of abs(q/Pt).
       // Use multimap rather than map to do this, as some tracks may have identical q/Pt, and it will store all of them, unlike map.
-      multimap<float, const L1track3D*> orderedTrks;
+      std::multimap<float, const L1track3D*> orderedTrks;
       for (const L1track3D& trk : tracks) {
 	orderedTrks.insert( pair<float, const L1track3D*>( fabs(trk.qOverPt()), &trk) );
       }
 
       // Create map containing L1 tracks found in whole of tracker together with flag indicating if the
       // track was killed because it was in a busy sector.
-      map<const L1track3D*, bool> trksInSector;
+      std::map<const L1track3D*, bool> trksInSector;
 
       // Check how many tracks would be killed by 36BX period, assuming we kill preferentially low Pt ones.
       bool tooBusyOut = false;
@@ -1704,7 +1721,7 @@ void Histos::fillStudyBusyEvents(const InputData& inputData, const matrix<Sector
 
       //--- Compare properties of sectors with/without too many output stubs.
 
-      const vector<string> tnames = {"BusyOutSec", "QuietOutSec"};
+      const std::vector<string> tnames = {"BusyOutSec", "QuietOutSec"};
 
       // Loop over sectors with too many/not too many output stubs.
       for (const string& tn : tnames) {
@@ -1878,7 +1895,8 @@ void Histos::fillStudyBusyEvents(const InputData& inputData, const matrix<Sector
 
 void Histos::fillTrackFitting( const InputData& inputData, const std::vector<std::pair<std::string,L1fittedTrack>>& mFittedTracks, float chi2dofCutPlots)
 { 
- 
+	using namespace std;
+	
 #ifndef HISTOS_OPTIMIZE_
 	
 	map<std::string,uint> nFittedTracks;

@@ -10,13 +10,12 @@
 #include <vector>
 #include <utility>
 
-using  boost::numeric::ublas::matrix;
 
 class Settings;
 class Stub;
 class TP;
 
-using namespace std;
+
 
 //=== This is a linked pair of r-phi and r-z Hough Transform arrays for a single (eta,phi) sector.
 //=== It allows track reconstruction in 3D, and gives access to these 3D tracks.
@@ -39,7 +38,7 @@ public:
 
   // Add stub to r-phi HT array.
   // If eta subsectors are being used within each sector, specify which ones the stub is compatible with.
-  void store( const Stub* stub, const vector<bool>& inEtaSubSecs);
+  void store( const Stub* stub, const std::vector<bool>& inEtaSubSecs);
 
   // Termination. Causes r-phi HT to search for tracks. 
   // Then optionally run r-z HT on stubs assigned to r-phi tracks, so reconstructing tracks in 3D.
@@ -58,7 +57,7 @@ public:
   // Optionally runs track filters (e.g. r-z filter) after r-phi HT if requested, which may improve r-z track parameter estimate.
   // Each L1track3D object gives access to stubs on each track and helix parameters, 
   // and also to the associated truth tracking particle.
-  const vector<L1track3D>& trackCands3D() const {return vecTracks3D_;}
+  const std::vector<L1track3D>& trackCands3D() const {return vecTracks3D_;}
 
   // Number of 3D track candidates found.
   unsigned int numTrackCands3D() const {return vecTracks3D_.size();}
@@ -68,18 +67,18 @@ public:
 
   // Get all 3D track candidates associated to the given tracking particle.
   // (If the vector is empty, then the tracking particle was not reconstructed in this sector).
-  virtual vector<const L1track3D*> assocTrackCands3D(const TP& tp) const;
+  virtual std::vector<const L1track3D*> assocTrackCands3D(const TP& tp) const;
 
   // Get number of 3D track candidates associated to the given tracking particle.
   unsigned int numAssocTrackCands3D(const TP& tp) const {return this->assocTrackCands3D( tp ).size();}
 
   // Get the number of r-phi HT cells that a given set of 3D track candidates came from.
-  virtual unsigned int   numRphiCells(const vector<const L1track3D*>& trk3D) const;
+  virtual unsigned int   numRphiCells(const std::vector<const L1track3D*>& trk3D) const;
 
 private:
 
   // Make 3D tracks from 2D tracks found by r-phi HT, either by using r-z HT or by using helix params of centre of sector.
-  vector<L1track3D> make3Dtracks();
+  std::vector<L1track3D> make3Dtracks();
 
 private:
 
@@ -101,10 +100,10 @@ private:
   KillDupTrks<L1track3D> killDupTrks_;
 
   // List of all found 3D track candidates and their associated properties.
-  vector<L1track3D> vecTracks3D_;
+  std::vector<L1track3D> vecTracks3D_;
 
   // Since r-z HT array is not stored, store instead this variable used to debug it.
-  vector<float> fracCellsWithNoNeighboursRz_;
+  std::vector<float> fracCellsWithNoNeighboursRz_;
 };
 #endif
 

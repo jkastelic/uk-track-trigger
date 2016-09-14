@@ -5,10 +5,12 @@
 
 #include "FWCore/Utilities/interface/Exception.h"
 
+using namespace std;
+
 //=== Count number of tracker layers a given list of stubs are in.
 //=== By default, consider both PS+2S modules, but optionally consider only the PS ones.
 
-unsigned int Utility::countLayers(const Settings* settings, const vector<const Stub*>& vstubs, bool disableReducedLayerID, bool onlyPS) {
+unsigned int Utility::countLayers(const Settings* settings, const std::vector<const Stub*>& vstubs, bool disableReducedLayerID, bool onlyPS) {
 
   //=== Unpack configuration parameters
 
@@ -25,7 +27,7 @@ unsigned int Utility::countLayers(const Settings* settings, const vector<const S
   bool reduce  =  (disableReducedLayerID)  ?  false  :  reduceLayerID;
 
   const int maxLayerID(30);
-  vector<bool> foundLayers(maxLayerID, false);
+  std::vector<bool> foundLayers(maxLayerID, false);
 
   if (useLayerID) {
     // Count layers using CMSSW layer ID.
@@ -69,8 +71,8 @@ unsigned int Utility::countLayers(const Settings* settings, const vector<const S
 //=== the number of tracker layers in which one of the stubs matched one from this tracking particle,
 //=== and the list of the subset of the stubs which match those on the tracking particle.
 
-const TP* Utility::matchingTP(const Settings* settings, const vector<const Stub*>& vstubs,
-	                      unsigned int& nMatchedLayersBest, vector<const Stub*>& matchedStubsBest)
+const TP* Utility::matchingTP(const Settings* settings, const std::vector<const Stub*>& vstubs,
+	                      unsigned int& nMatchedLayersBest, std::vector<const Stub*>& matchedStubsBest)
 {
   // Get matching criteria
   const double        minFracMatchStubsOnReco = settings->minFracMatchStubsOnReco();

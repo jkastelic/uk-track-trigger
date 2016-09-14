@@ -75,7 +75,7 @@ void HTcell::end(){
     numFilteredLayersInCellBestSubSec_ = 0;
     for (unsigned int i = 0; i < numSubSecs_; i++) {
       unsigned int numLaySubSec = this->calcNumFilteredLayers(i);
-      numFilteredLayersInCellBestSubSec_ = max(numFilteredLayersInCellBestSubSec_, numLaySubSec);
+      numFilteredLayersInCellBestSubSec_ = std::max(numFilteredLayersInCellBestSubSec_, numLaySubSec);
     }
   } else {
     // If only 1 sub-sector, then subsector and sector are identical.
@@ -87,9 +87,9 @@ void HTcell::end(){
 // that are in the specified subsector are counted.
 
 unsigned int HTcell::calcNumFilteredLayers(unsigned int iSubSec) const {
-  vector<const Stub*> stubsInSubSec;
+  std::vector<const Stub*> stubsInSubSec;
   for (const Stub* s : vFilteredStubs_) {
-    const vector<bool>& inSubSec = subSectors_.at(s); // Find out which subsectors this stub is in.
+    const std::vector<bool>& inSubSec = subSectors_.at(s); // Find out which subsectors this stub is in.
     if (inSubSec[iSubSec]) stubsInSubSec.push_back(s);
   }
   return Utility::countLayers( settings_, stubsInSubSec );
@@ -99,8 +99,10 @@ unsigned int HTcell::calcNumFilteredLayers(unsigned int iSubSec) const {
 //=== Produce a filtered collection of stubs in this cell that all have consistent bend.
 //=== Only called for r-phi Hough transform.
 
-vector<const Stub*> HTcell::bendFilter( const vector<const Stub*>& stubs ) const {
-
+std::vector<const Stub*> HTcell::bendFilter( const std::vector<const Stub*>& stubs ) const
+{
+	using namespace std;
+	
   // Create bend-filtered stub collection.
   vector<const Stub*> filteredStubs;
   for (const Stub* s : stubs) {
@@ -125,7 +127,10 @@ vector<const Stub*> HTcell::bendFilter( const vector<const Stub*>& stubs ) const
 //=== Filter stubs so as to prevent more than specified number of stubs being stored in one cell.
 //=== This reflects finite memory of hardware.
 
-vector<const Stub*> HTcell::maxStubCountFilter( const vector<const Stub*>& stubs ) const {
+std::vector<const Stub*> HTcell::maxStubCountFilter( const std::vector<const Stub*>& stubs ) const
+{
+	using namespace std;
+	
   vector<const Stub*> filteredStubs;
   unsigned int numStubsToDelete = (stubs.size() > maxStubsInCell_)  ?  stubs.size() - maxStubsInCell_  :  0;
   // If there are too many stubs in a cell, the hardware throws away the first ones and keeps the last ones. 

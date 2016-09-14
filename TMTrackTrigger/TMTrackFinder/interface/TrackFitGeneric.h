@@ -14,7 +14,6 @@
 #include <vector>
 #include <utility>
 
-using namespace std;
 
 class Settings;
 
@@ -23,7 +22,7 @@ class TrackFitGeneric {
 public:
 
   // Set configuration parameters.
-  TrackFitGeneric( const Settings* settings, const string &fitterName="" );
+  TrackFitGeneric( const Settings* settings, const std::string &fitterName = "" );
 
   virtual ~TrackFitGeneric() {}
 
@@ -37,16 +36,16 @@ public:
   // Specify which phi sector and eta region it is in.
   virtual L1fittedTrack fit( const L1track3D& l1track3D,  unsigned int iPhiSec, unsigned int iEtaReg );
 
-  virtual std::string getParams()=0;
-  const Settings* getSettings()const{return settings_;}
-  unsigned nDupStubs()const{ return nDupStubs_; }
+  virtual std::string getParams() = 0;
+  const Settings* getSettings() const {return settings_;}
+  unsigned nDupStubs() const { return nDupStubs_; }
 
 protected:
 
   // Configuration parameters
-  const Settings* settings_;
-  const string    fitterName_;
-  unsigned nDupStubs_;
+  const Settings*    settings_;
+  const std::string  fitterName_;
+  unsigned           nDupStubs_;
 };
 #endif
 

@@ -4,7 +4,6 @@
 #include <vector>
 #include <utility>
 
-using namespace std;
 
 class Stub;
 class TP;
@@ -25,7 +24,7 @@ protected:
   //--- Get information about the reconstructed track.
 
   // Get stubs on track candidate.
-  virtual const vector<const Stub*>&        getStubs()              const  = 0;
+  virtual const std::vector<const Stub*>&   getStubs()              const  = 0;
   // Get number of stubs on track candidate.
   virtual unsigned int                      getNumStubs()           const  = 0;
   // Get number of tracker layers these stubs are in.
@@ -43,15 +42,15 @@ protected:
 
   //--- User-friendly access to the cell locations of the track candidate in the r-phi and r-z Hough transform arrays in units of bin number.
 
-  virtual pair<unsigned int, unsigned int>  getCellLocationRphi() const = 0;
-  virtual pair<unsigned int, unsigned int>  getCellLocationRz()   const = 0;
+  virtual std::pair<unsigned int, unsigned int>  getCellLocationRphi() const = 0;
+  virtual std::pair<unsigned int, unsigned int>  getCellLocationRz()   const = 0;
 
   //--- Get information about its association (if any) to a truth Tracking Particle.
 
   // Get matching tracking particle (=nullptr if none).
   virtual const TP*                  getMatchedTP()          const   = 0;
   // Get the matched stubs.
-  virtual const vector<const Stub*>& getMatchedStubs()       const   = 0;
+  virtual const std::vector<const Stub*>& getMatchedStubs()  const   = 0;
   // Get number of matched stubs.
   virtual unsigned int               getNumMatchedStubs()    const   = 0;
   // Get number of tracker layers with matched stubs.

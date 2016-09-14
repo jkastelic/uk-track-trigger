@@ -17,7 +17,7 @@ class KF4ParamsComb : public L1KalmanComb{
 	enum PAR_IDS { INV2R, PHI0, Z0, T }; 
 	enum MEAS_IDS { PHI, Z };
     public:
-        KF4ParamsComb(const Settings* settings, const uint nPar, const string &fitterName );
+        KF4ParamsComb(const Settings* settings, const uint nPar, const std::string &fitterName );
         virtual ~KF4ParamsComb(){}
         std::string getParams();
  

@@ -17,6 +17,8 @@
 #include <TH2F.h>
 //#define CKF_DEBUG
 
+using namespace std;
+
 static double wrapRadian( double t ){
 
     if( t > 0 ){
@@ -79,7 +81,7 @@ std::map<std::string, double> L1KalmanComb::getTrackParams( const L1KalmanComb *
 std::vector<double> L1KalmanComb::Hx( const TMatrixD &pH, const std::vector<double> &x )const
 {
     std::vector<double> m( (unsigned) pH.GetNrows() );
-    if( pH.GetNcols() != (int) x.size() ) { cerr << "Hx() : H and x have different dimensions" << endl; }
+    if( pH.GetNcols() != (int) x.size() ) { std::cerr << "Hx() : H and x have different dimensions" << std::endl; }
     else{
 
 	for( int i=0; i < pH.GetNcols(); i++ ){ 
@@ -99,7 +101,7 @@ TMatrixD L1KalmanComb::HxxH( const TMatrixD &pH, const TMatrixD &xx )const
     int nd = (unsigned) pH.GetNrows(); 
     TMatrixD tmp(nd,nPar_);
     TMatrixD mHxxH(nd,nd);
-    if( pH.GetNcols() != xx.GetNcols() || pH.GetNcols() != xx.GetNrows() ) { cerr << "HxxH() : H and xx have different dimensions" << endl; }
+    if( pH.GetNcols() != xx.GetNcols() || pH.GetNcols() != xx.GetNrows() ) { std::cerr << "HxxH() : H and xx have different dimensions" << std::endl; }
     else{
 
 	for( int i=0; i < pH.GetNrows(); i++ ){ 
@@ -122,8 +124,7 @@ TMatrixD L1KalmanComb::HxxH( const TMatrixD &pH, const TMatrixD &xx )const
 }
 double L1KalmanComb::Chi2( const TMatrixD &dcov, const std::vector<double> &delta, bool debug )const
 {
-
-    if( dcov.Determinant() == 0 ) return 999;
+      if( dcov.Determinant() == 0 ) return 999;
 
     TMatrixD dcovi( dcov );
     dcovi.Invert();
@@ -152,7 +153,7 @@ double L1KalmanComb::Chi2( const TMatrixD &dcov, const std::vector<double> &delt
 }
 TMatrixD L1KalmanComb::GetKalmanMatrix( const TMatrixD &h, const TMatrixD &pxcov, const TMatrixD &dcov )const
 {
-
+  
     TMatrixD pxcovht(pxcov.GetNrows(),2);
     for( int i=0; i<pxcov.GetNrows(); i++ ){
 	for( int j=0; j<pxcov.GetNcols(); j++ ){
@@ -240,7 +241,7 @@ void L1KalmanComb::GetAdjustedState( const TMatrixD &K, const TMatrixD &pxcov,
 }
 
 void L1KalmanComb::printTP( std::ostream &os, const TP *tp )const{
-
+  
     std::map<std::string, double> tp_x;
     bool useForAlgEff(false);
     if( tp ){
@@ -266,7 +267,7 @@ void L1KalmanComb::printTP( std::ostream &os, const TP *tp )const{
 }
 static void printStubLayers( std::ostream &os, std::vector<const Stub *> &stubs ){
 
-    if( stubs.size() == 0 ) os << "stub layers = []" << endl;
+    if( stubs.size() == 0 ) os << "stub layers = []" << std::endl;
     else{
 	os << "stub layers = [ ";
 	for( unsigned i=0; i<stubs.size()-1; i++ ) os << stubs[i]->layerId() << ", ";
@@ -274,7 +275,7 @@ static void printStubLayers( std::ostream &os, std::vector<const Stub *> &stubs 
     }
 }
 static void printStub( std::ostream &os, const Stub * stub ){
-    os << "stub ";
+      os << "stub ";
     os << "[" << stub << "] "; 
     os << "layerId : " << stub->layerId() << " ";
     os << "index : " << stub->index() << " ";
@@ -307,6 +308,7 @@ static void printStubs( std::ostream &os, std::vector<const Stub *> &stubs ){
    */
 
 L1KalmanComb::L1KalmanComb(const Settings* settings, const uint nPar, const string &fitterName, const uint nMeas ) : TrackFitGeneric(settings, fitterName ){
+      
     nPar_ = nPar;
     nMeas_ = nMeas;
     hkfxmin = vector<double>( nPar_, -1 );
@@ -352,7 +354,7 @@ L1KalmanComb::L1KalmanComb(const Settings* settings, const uint nPar, const stri
 }
 
 L1fittedTrack L1KalmanComb::fit(const L1track3D& l1track3D, unsigned int iPhiSec, unsigned int iEtaReg){
-
+    
     iCurrentPhiSec_ = iPhiSec;
     iCurrentEtaReg_ = iEtaReg;
     resetStates();
@@ -556,7 +558,7 @@ std::vector<const Stub *> L1KalmanComb::getNextLayerStubs( const kalmanState *st
 }
 
 std::vector<const kalmanState *> L1KalmanComb::doKF( unsigned nItr, const std::vector<const kalmanState *> &states, std::vector<const Stub *> stubs, const TP *tpa ){
-
+    
     if( getSettings()->kalmanDebugLevel() >= 2 ){
 	cout << "----------------------------" << endl;
 	cout << "doKF # of iteration = " << nItr << " # of stubs left = " << stubs.size() << " # of the last states = " << states.size() << endl;
@@ -721,6 +723,7 @@ std::vector<const kalmanState *> L1KalmanComb::doKF( unsigned nItr, const std::v
 
 bool L1KalmanComb::validationGate( const Stub *stub, unsigned stub_itr, const kalmanState &state, double &e2, bool debug )const 
 {
+        
     e2 = 0;
     if( state.stubs().size() < 3 ) return true; 
 
@@ -762,7 +765,7 @@ bool L1KalmanComb::validationGate( const Stub *stub, unsigned stub_itr, const ka
 }
 
 double L1KalmanComb::calcChi2( unsigned itr, const kalmanState &state )const{
-
+    
     if( getSettings()->kalmanDebugLevel() >= 4 ){
 	cout << "calcChi2 " << endl;
     }

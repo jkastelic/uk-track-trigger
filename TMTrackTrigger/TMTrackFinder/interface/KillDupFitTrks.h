@@ -7,7 +7,6 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
 
 class Settings;
 
@@ -36,7 +35,7 @@ public:
   /**
   *  Eliminate duplicate tracks from the input collection, and so return a reduced list of tracks.
   */
-  vector<L1fittedTrack> filter(const vector<L1fittedTrack>& vecTracks) const;
+  std::vector<L1fittedTrack> filter(const std::vector<L1fittedTrack>& vecTracks) const;
 
 private:
 
@@ -45,7 +44,7 @@ private:
    * by requiring that the fitted (q/Pt, phi0) of the track correspond to the same HT cell in which the track
    * was originally found by the HT.
    */
-  vector<L1fittedTrack> filterAlg50(const vector<L1fittedTrack>& tracks) const;
+  std::vector<L1fittedTrack> filterAlg50(const std::vector<L1fittedTrack>& tracks) const;
 
   /**
    * Other duplicate track removal algorithms are available in class KillDupTrks, which this class

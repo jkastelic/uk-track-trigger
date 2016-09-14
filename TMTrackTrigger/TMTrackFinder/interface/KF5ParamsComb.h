@@ -11,7 +11,7 @@ class KF5ParamsComb : public L1KalmanComb{
 	enum MEAS_IDS { PHI, Z };
 
     public:
-	KF5ParamsComb(const Settings* settings, const string &fitterName );
+	KF5ParamsComb(const Settings* settings, const std::string &fitterName );
 	~KF5ParamsComb(){}
 	std::string getParams();
 
@@ -33,7 +33,7 @@ class KF5ParamsComb : public L1KalmanComb{
 	const kalmanState *updateSeedWithStub( const kalmanState &state, const Stub *stub );
 	bool isGoodState( const kalmanState &state )const;
 
-	double getRofState( unsigned layerId, const vector<double> &xa )const;
+	double getRofState( unsigned layerId, const std::vector<double> &xa )const;
 	TMatrixD dH(const Stub* stub)const;
 
 };

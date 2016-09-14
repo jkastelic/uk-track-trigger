@@ -4,6 +4,8 @@
 #include "TMTrackTrigger/TMTrackFinder/interface/Settings.h"
 #include "TMTrackTrigger/TMTrackFinder/interface/Stub.h"
 
+using namespace std;
+
 //=== Initialize configuration parameters, and note eta range covered by sector and phi coordinate of its centre.
 
 void TrkRZfilter::init(const Settings* settings, float etaMinSector, float etaMaxSector, float phiCentreSector) {

@@ -12,7 +12,6 @@
 #include <map>
 #include <string>
 
-using namespace std;
 
 class Settings;
 class Histos;
@@ -38,7 +37,7 @@ private:
 
   Settings *settings_;
   Histos   *hists_;
-  map<string, TrackFitGeneric*> fitterWorkerMap_;
+  std::map<std::string, TrackFitGeneric*> fitterWorkerMap_;
 };
 #endif
 

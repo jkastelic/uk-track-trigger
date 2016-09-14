@@ -22,7 +22,7 @@
 #include <array>
 #include <map>
 
-using namespace std;
+
 
 class StackedTrackerGeometry;
 class StackedTrackerDetId;
@@ -36,6 +36,8 @@ typedef edm::Ref<DetSetVec, TTStub<Ref_PixelDigi_> >   TTStubRef;
 typedef edm::Ref< edmNew::DetSetVector< TTCluster< Ref_PixelDigi_ > >, TTCluster< Ref_PixelDigi_ > > TTClusterRef;
 typedef TTStubAssociationMap<Ref_PixelDigi_>           TTStubAssMap;
 typedef TTClusterAssociationMap<Ref_PixelDigi_>        TTClusterAssMap;
+
+
 
 //=== Represents a Tracker stub (=pair of hits)
 
@@ -52,7 +54,7 @@ public:
 
 	// Fill truth info with association from stub to tracking particles.
 	// The 1st argument is a map relating TrackingParticles to TP.
-	void fillTruth(const map<edm::Ptr< TrackingParticle >, const TP* >& translateTP, edm::Handle<TTStubAssMap> mcTruthTTStubHandle, edm::Handle<TTClusterAssMap> mcTruthTTClusterHandle);
+	void fillTruth(const std::map<edm::Ptr< TrackingParticle >, const TP* >& translateTP, edm::Handle<TTStubAssMap> mcTruthTTStubHandle, edm::Handle<TTClusterAssMap> mcTruthTTClusterHandle);
 
 	// Calculate bin range along q/Pt axis of r-phi Hough transform array consistent with bend of this stub.
 	void calcQoverPtrange();
@@ -111,7 +113,7 @@ public:
 	float                                 beta() const { return   (phi_ + dphi()); }
 	// Estimated phi angle at which track crosses a given radius rad, based on stub bend info. Also estimate uncertainty on this angle due to endcap 2S module strip length. 
 	// This is identical to beta() if rad=0.
-	pair <float, float>     trkPhiAtR(float rad) const;
+	std::pair<float, float> trkPhiAtR(float rad) const;
 	// Estimated resolution in trkPhiAtR(rad) based on nominal stub bend resolution.
 	float                trkPhiAtRres(float rad) const { return dphiRes() * fabs(1 - rad / r_); }
 	// Difference in phi between stub and angle at which track crosses given radius, assuming track has given Pt.
@@ -127,8 +129,8 @@ public:
 
 	//--- Info about the two clusters that make up the stub.
 	// Coordinates in frame of sensor, measured in units of strip pitch along two orthogonal axes running perpendicular and parallel to longer axis of pixels/strips (U & V).
-	array<float, 2>             localU_cluster() const { return localU_cluster_;}
-	array<float, 2>             localV_cluster() const { return localV_cluster_;}
+	std::array<float, 2>        localU_cluster() const { return localU_cluster_;}
+	std::array<float, 2>        localV_cluster() const { return localV_cluster_;}
 
 	//--- Check if this stub will be output by front-end readout electronics,
 	//--- (where we can reconfigure the stub window size and rapidity cut).
@@ -188,13 +190,13 @@ public:
 	//--- Truth info
 
 	// Association of stub to tracking particles
-	set<const TP*>                    assocTPs() const { return        assocTPs_; } // Return TPs associated to this stub. (Whether only TPs contributing to both clusters are returned is determined by "StubMatchStrict" config param.)
+	std::set<const TP*>               assocTPs() const { return        assocTPs_; } // Return TPs associated to this stub. (Whether only TPs contributing to both clusters are returned is determined by "StubMatchStrict" config param.)
 	bool	 			     genuine() const { return (assocTPs_.size() > 0); } // Did stub match at least one TP?
 	const TP*                          assocTP() const { return         assocTP_; } // If only one TP contributed to both clusters, this tells you which TP it is. Returns nullptr if none.
 
 	// Association of both clusters making up stub to tracking particles
-	array<bool, 2>	      genuineCluster() const { return array<bool, 2>{ {(assocTPofCluster_[0] != nullptr), (assocTPofCluster_[1] != nullptr)} }; } // Was cluster produced by a single TP?
-	array<const TP*, 2>       assocTPofCluster() const { return       assocTPofCluster_; } // Which TP made each cluster. Warning: If cluster was not produced by a single TP, then returns nullptr! (P.S. If both clusters match same TP, then this will equal assocTP()).
+	std::array<bool, 2>	        genuineCluster() const { return std::array<bool, 2>{ {(assocTPofCluster_[0] != nullptr), (assocTPofCluster_[1] != nullptr)} }; } // Was cluster produced by a single TP?
+	std::array<const TP*, 2>  assocTPofCluster() const { return       assocTPofCluster_; } // Which TP made each cluster. Warning: If cluster was not produced by a single TP, then returns nullptr! (P.S. If both clusters match same TP, then this will equal assocTP()).
 
 	// Note if stub is a crazy distance from the tracking particle trajectory that produced it. (e.g. perhaps produced by delta ray)
 	bool                             crazyStub() const;
@@ -250,8 +252,8 @@ private:
 	unsigned int                     max_qOverPt_bin_; 
 
 	//--- Info about the two clusters that make up the stub.
-	array<float, 2>                   localU_cluster_;
-	array<float, 2>                   localV_cluster_;
+	std::array<float, 2>              localU_cluster_;
+	std::array<float, 2>              localV_cluster_;
 
 	//--- Parameters common to all stubs in a given module.
 	unsigned int                               idDet_; 
@@ -278,9 +280,9 @@ private:
 
 	//--- Truth info about stub.
 	const TP*                                assocTP_;
-	set<const TP*>                          assocTPs_;
+	std::set<const TP*>                     assocTPs_;
 	//--- Truth info about the two clusters that make up the stub
-	array<const TP*, 2>             assocTPofCluster_;
+	std::array<const TP*, 2>        assocTPofCluster_;
 
 	// Would front-end electronics output this stub?
 	bool                                frontendPass_;

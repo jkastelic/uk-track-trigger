@@ -2,6 +2,8 @@
 //#include "TMTrackTrigger/TMTrackFinder/interface/Matrix.h"
 #include <TMatrixD.h>
 
+using namespace std;
+
 kalmanState::kalmanState(): nIterations_(0), layerId_(0), xa_(0), pxxa_(), stub_(0), chi2_(0), n_stubs_(0), n_virtual_stubs_(1), fitter_(0), fXtoTrackParams_(0), barrel_(true){
 }
 

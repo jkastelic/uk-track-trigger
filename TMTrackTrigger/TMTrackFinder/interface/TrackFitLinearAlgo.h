@@ -18,7 +18,6 @@
 #include <vector>
 #include <utility>
 
-using namespace std;
 
 class Settings;
 
@@ -41,21 +40,19 @@ public:
    std::string getParams();
 
 private:
-
   // Method to invert matrix by hand
-  void invert( float M[5][10],unsigned int n );
+  void invert( float M[5][10], unsigned int n );
 
   // Method to calculate derivatives
   void calculateDerivatives( bool withd0 );
 
   // Method to calculate residuals
-  void residuals( float& largestresid,int& ilargestresid );
+  void residuals( float& largestresid, int& ilargestresid );
 
   // Linear track fitting method
   void linearTrackFit( bool withd0 );
 
 private:
-
   // Configuration parameters
   const Settings* settings_;
   float invPtToInvR_;

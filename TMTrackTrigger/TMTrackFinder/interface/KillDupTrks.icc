@@ -1,8 +1,12 @@
 
+
+
 // Make available cfg parameters & specify which algorithm is to be used for duplicate track removal.
 template <class T>
 void KillDupTrks<T>::init(const Settings* settings, unsigned int dupTrkAlg)
 {
+	using namespace std;
+	
 	settings_ = settings; 
 	
 	dupTrkAlg_                 = dupTrkAlg;
@@ -58,7 +62,7 @@ bool KillDupTrks<T>::isAdjacentCell(std::pair<unsigned int, unsigned int> i, std
 
 // Eliminate duplicate tracks from the input collection, and so return a reduced list of tracks.
 template <class T>
-vector<T> KillDupTrks<T>::filter(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filter(const std::vector<T>& vecTracks) const
 {
 	// Short-circuit the calculation for trivial cases
 	if (vecTracks.size() == 0 || vecTracks.size() == 1)
@@ -103,10 +107,11 @@ vector<T> KillDupTrks<T>::filter(const vector<T>& vecTracks) const
 //=== Selects only a single track, based on the number of stubs & number of layers with stubs on the track.
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg1(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg1(const std::vector<T>& vecTracks) const
 {
-	const bool debug = false;
+	using namespace std;
 	
+	const bool debug = false;
 	
 	vector<T> vecTracksFiltered;
 	
@@ -177,8 +182,10 @@ vector<T> KillDupTrks<T>::filterAlg1(const vector<T>& vecTracks) const
 //=== Based on Stub index() -- assumes they are ordered!  idr 9/7/15
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg2(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg2(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	
@@ -251,8 +258,10 @@ vector<T> KillDupTrks<T>::filterAlg2(const vector<T>& vecTracks) const
 // Implementing OSU algorithm, keep tracks with N or more unique stubs (default 3)
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg3(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg3(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	
@@ -352,8 +361,10 @@ vector<T> KillDupTrks<T>::filterAlg3(const vector<T>& vecTracks) const
 // Filter on reduced ChiSq of a linear fit in RZ
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg4(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg4(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	
@@ -389,8 +400,10 @@ vector<T> KillDupTrks<T>::filterAlg4(const vector<T>& vecTracks) const
 // keep /*smallest*/ longest! candidates if common stubs in N or more layers (default 5 at present)
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg5(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg5(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	
@@ -526,8 +539,10 @@ vector<T> KillDupTrks<T>::filterAlg5(const vector<T>& vecTracks) const
 // Try keeping track with best RZ/ZR reduced chi-square
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg6(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg6(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	// vector (corresponding to candidate tracks) of vectors (indices for stubs)
@@ -726,8 +741,10 @@ vector<T> KillDupTrks<T>::filterAlg6(const vector<T>& vecTracks) const
 // keep "best"((c) IanT 2015) candidates if common stubs in N or more layers (default 5 at present)
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg7(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg7(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	// vector (corresponding to candidate tracks) of vectors (indices for stubs)
@@ -862,8 +879,10 @@ vector<T> KillDupTrks<T>::filterAlg7(const vector<T>& vecTracks) const
 // keep largest candidates if common stubs in N or more layers (default 5 at present), both if equal
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg8(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg8(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	// vector (corresponding to candidate tracks) of vectors (indices for stubs)
@@ -998,8 +1017,10 @@ vector<T> KillDupTrks<T>::filterAlg8(const vector<T>& vecTracks) const
 // (later -- if equal, keep least no of stubs), if still equal discard one (otherwise dupes not removed)
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg9(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg9(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	// vector (corresponding to candidate tracks) of vectors (indices for stubs)
@@ -1163,8 +1184,10 @@ vector<T> KillDupTrks<T>::filterAlg9(const vector<T>& vecTracks) const
 // Try just removing r-phi candidates in adjacent cells as dupes are mostly adjacent
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg10(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg10(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
 	std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place
 	unsigned int i = 0;
@@ -1206,8 +1229,10 @@ vector<T> KillDupTrks<T>::filterAlg10(const vector<T>& vecTracks) const
 
 // Try just removing r-phi candidates in adjacent cells *with same number of stubs* as dupes are mostly adjacent
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg11(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg11(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
 	std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place	
 	
@@ -1253,8 +1278,10 @@ vector<T> KillDupTrks<T>::filterAlg11(const vector<T>& vecTracks) const
 // Try just removing r-phi candidates in adjacent cells in X (with same number of stubs) as dupes are mostly adjacent
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg12(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg12(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
 	std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place		
 	
@@ -1301,8 +1328,10 @@ vector<T> KillDupTrks<T>::filterAlg12(const vector<T>& vecTracks) const
 // Try just merging r-phi candidates in adjacent cells in X
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg13(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg13(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
 	std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place		
 	
@@ -1348,8 +1377,10 @@ vector<T> KillDupTrks<T>::filterAlg13(const vector<T>& vecTracks) const
 // Try merging r-phi candidates in all adjacent cells
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg14(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg14(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
 	std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place		
 	
@@ -1400,8 +1431,10 @@ vector<T> KillDupTrks<T>::filterAlg14(const vector<T>& vecTracks) const
 // keep largest candidates if common stubs in N or more layers (default 5 at present), drop second if equal
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg15(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg15(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
 	std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place
 	
@@ -1522,8 +1555,10 @@ vector<T> KillDupTrks<T>::filterAlg15(const vector<T>& vecTracks) const
 // merge candidates if common stubs in N or more layers (default 5 at present)
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg16(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg16(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
   vector<T> vecTracksFiltered = vecTracks; // vecTracks no longer sorted by signed q/pT
   std::sort(vecTracksFiltered.begin(), vecTracksFiltered.end(),  T::qOverPtSortPredicate);  // We can do this in-place
 
@@ -1647,8 +1682,11 @@ vector<T> KillDupTrks<T>::filterAlg16(const vector<T>& vecTracks) const
 // Duplicate removal -- merge candidates within tight cuts on helix parameters
 // Best results for 32x32 HT for cuts corresponding to adjacent HT cells
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg17(const vector<T>& vecTracks) const
-{ vector<T> vecTracksSorted = vecTracks; // vecTracks no longer sorted by signed q/pT
+std::vector<T> KillDupTrks<T>::filterAlg17(const std::vector<T>& vecTracks) const
+{
+	using namespace std;
+	
+	vector<T> vecTracksSorted = vecTracks; // vecTracks no longer sorted by signed q/pT
   std::sort(vecTracksSorted.begin(), vecTracksSorted.end(),  T::qOverPtSortPredicate);
 
   unsigned i=0;
@@ -1678,8 +1716,11 @@ vector<T> KillDupTrks<T>::filterAlg17(const vector<T>& vecTracks) const
 
 // Duplicate removal -- merge candidates in adjacent HT cells within tight cuts on other parameters
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg18(const vector<T>& vecTracks) const
-{ vector<T> vecTracksSorted = vecTracks; // vecTracks no longer sorted by signed q/pT
+std::vector<T> KillDupTrks<T>::filterAlg18(const std::vector<T>& vecTracks) const
+{
+	using namespace std;
+	
+	vector<T> vecTracksSorted = vecTracks; // vecTracks no longer sorted by signed q/pT
   std::sort(vecTracksSorted.begin(), vecTracksSorted.end(),  T::qOverPtSortPredicate);
 
   unsigned i=0;
@@ -1707,8 +1748,11 @@ vector<T> KillDupTrks<T>::filterAlg18(const vector<T>& vecTracks) const
 
 // Duplicate removal -- drop "worst" candidate in adjacent HT cells within tight cuts on other parameters
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg19(const vector<T>& vecTracks) const
-{ vector<T> vecTracksSorted = vecTracks; // vecTracks no longer sorted by signed q/pT
+std::vector<T> KillDupTrks<T>::filterAlg19(const std::vector<T>& vecTracks) const
+{
+	using namespace std;
+	
+	vector<T> vecTracksSorted = vecTracks; // vecTracks no longer sorted by signed q/pT
   std::sort(vecTracksSorted.begin(), vecTracksSorted.end(),  T::qOverPtSortPredicate);
 
   unsigned i=0;
@@ -1743,8 +1787,10 @@ vector<T> KillDupTrks<T>::filterAlg19(const vector<T>& vecTracks) const
 }
 
 template <class T>
-vector<T> KillDupTrks<T>::filterAlg100(const vector<T>& vecTracks) const
+std::vector<T> KillDupTrks<T>::filterAlg100(const std::vector<T>& vecTracks) const
 {
+	using namespace std;
+	
 	vector<T> vecTracksFiltered;
 	
 	int nCands = vecTracks.size();

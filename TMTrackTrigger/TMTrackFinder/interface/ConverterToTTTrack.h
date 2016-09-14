@@ -10,7 +10,7 @@
 typedef edmNew::DetSetVector< TTStub<Ref_PixelDigi_> > DetSetVec;
 typedef edm::Ref<DetSetVec, TTStub<Ref_PixelDigi_> > TTStubRef;
 
-using namespace std;
+
 
 //=== Convert our non-persistent L1 track collection to the official persistent CMSSW EDM TTTrack format.
 //=== Works for both L1track3D and for L1fittedTrk4and5 objects.
@@ -51,7 +51,7 @@ private:
 // 			TTStubRef ref = *stubs.at(ii);
 // 			ttstubrefs.push_back(ref);
 			
-			ttstubrefs.push_back( (*( stubs.at(ii) )).cmsswTTStubRef() );
+			ttstubrefs.push_back( stubs.at(ii)->cmsswTTStubRef() );
     }
 
     return ttstubrefs;

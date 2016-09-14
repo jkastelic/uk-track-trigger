@@ -11,7 +11,6 @@
 #include <vector>
 #include <utility>
 
-using namespace std;
 
 //=== L1 track candidate found in 3 dimensions.
 //=== Gives access to all stubs on track and to its 3D helix parameters.
@@ -21,9 +20,9 @@ class L1track3D : public L1trackBase {
 
 public:
 
-  L1track3D(const Settings* settings, const vector<const Stub*>& stubs,
-            pair<unsigned int, unsigned int> cellLocationRphi, pair<float, float> helixRphi,
-            pair<unsigned int, unsigned int> cellLocationRz,   pair<float, float> helixRz) : 
+  L1track3D(const Settings* settings, const std::vector<const Stub*>& stubs,
+            std::pair<unsigned int, unsigned int> cellLocationRphi, std::pair<float, float> helixRphi,
+            std::pair<unsigned int, unsigned int> cellLocationRz,   std::pair<float, float> helixRz) : 
     L1trackBase(),
     settings_(settings),
     stubs_(stubs), 
@@ -39,19 +38,19 @@ public:
   //--- Get information about the reconstructed track.
 
   // Get stubs on track candidate.
-  const vector<const Stub*>&        getStubs()              const  {return stubs_;}  
+  const std::vector<const Stub*>&       getStubs()              const  {return stubs_;}  
   // Get number of stubs on track candidate.
-  unsigned int                      getNumStubs()           const  {return stubs_.size();}
+  unsigned int                          getNumStubs()           const  {return stubs_.size();}
   // Get number of tracker layers these stubs are in.
-  unsigned int                      getNumLayers()          const  {return nLayers_;}
+  unsigned int                          getNumLayers()          const  {return nLayers_;}
   // Get cell location of track candidate in r-phi Hough Transform array in units of bin number.
-  pair<unsigned int, unsigned int>  getCellLocationRphi()   const  {return cellLocationRphi_;}
+  std::pair<unsigned int, unsigned int> getCellLocationRphi()   const  {return cellLocationRphi_;}
   // The two conventionally agreed track helix parameters relevant in r-phi plane. i.e. (q/Pt, phi0)
-  pair<float, float>                getHelixRphi()          const  {return helixRphi_;}
+  std::pair<float, float>               getHelixRphi()          const  {return helixRphi_;}
   // Get cell location of track candidate in r-z Hough Transform array in units of bin number.
-  pair<unsigned int, unsigned int>  getCellLocationRz()     const  {return cellLocationRz_;}
+  std::pair<unsigned int, unsigned int> getCellLocationRz()     const  {return cellLocationRz_;}
   // The two conventionally agreed track helix parameters relevant in r-z plane. i.e. (z0, tan_lambda)
-  pair<float, float>                getHelixRz()            const  {return helixRz_;}
+  std::pair<float, float>               getHelixRz()            const  {return helixRz_;}
 
   //--- User-friendlier access to the helix parameters. 
 
@@ -76,15 +75,15 @@ public:
   //--- Get information about its association (if any) to a truth Tracking Particle.
 
   // Get best matching tracking particle (=nullptr if none).
-  const TP*                  getMatchedTP()          const   {return matchedTP_;}
+  const TP*                       getMatchedTP()        const {return matchedTP_;}
   // Get the matched stubs with this Tracking Particle
-  const vector<const Stub*>& getMatchedStubs()       const   {return matchedStubs_;}
+  const std::vector<const Stub*>& getMatchedStubs()     const {return matchedStubs_;}
   // Get number of matched stubs with this Tracking Particle
-  unsigned int               getNumMatchedStubs()    const   {return matchedStubs_.size();}
+  unsigned int                    getNumMatchedStubs()  const {return matchedStubs_.size();}
   // Get number of tracker layers with matched stubs with this Tracking Particle 
-  unsigned int               getNumMatchedLayers()   const   {return nMatchedLayers_;}
+  unsigned int                    getNumMatchedLayers() const {return nMatchedLayers_;}
   // Get purity of stubs on track candidate (i.e. fraction matching best Tracking Particle)
-  float                      getPurity()             const   {return getNumMatchedStubs()/float(getNumStubs());}
+  float                           getPurity()           const {return getNumMatchedStubs()/float(getNumStubs());}
 
   //--- Function for merging two tracks into a single track, used by by KillDupTracks.h for duplicate track removal.
   L1track3D mergeTracks(const L1track3D B) const;
@@ -95,16 +94,16 @@ private:
   const Settings*                    settings_; 
 
   //--- Information about the reconstructed track.
-  vector<const Stub*>                stubs_;
-  unsigned int                       nLayers_;
-  pair<unsigned int, unsigned int>   cellLocationRphi_; 
-  pair<float, float>                 helixRphi_; 
-  pair<unsigned int, unsigned int>   cellLocationRz_; 
-  pair<float, float>                 helixRz_; 
+  std::vector<const Stub*>              stubs_;
+  unsigned int                          nLayers_;
+  std::pair<unsigned int, unsigned int> cellLocationRphi_; 
+  std::pair<float, float>               helixRphi_; 
+  std::pair<unsigned int, unsigned int> cellLocationRz_; 
+  std::pair<float, float>               helixRz_; 
 
   //--- Information about its association (if any) to a truth Tracking Particle.
-  const TP*                          matchedTP_;
-  vector<const Stub*>                matchedStubs_;
-  unsigned int                       nMatchedLayers_;
+  const TP*                matchedTP_;
+  std::vector<const Stub*> matchedStubs_;
+  unsigned int             nMatchedLayers_;
 };
 #endif

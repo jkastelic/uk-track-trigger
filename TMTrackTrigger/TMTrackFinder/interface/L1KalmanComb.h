@@ -26,7 +26,7 @@ class kalmanState;
 class L1KalmanComb : public TrackFitGeneric{
  
     public:
-        L1KalmanComb(const Settings* settings, const uint nPar, const string &fitterName="", const uint nMeas=2 );
+        L1KalmanComb(const Settings* settings, const uint nPar, const std::string &fitterName="", const uint nMeas=2 );
  
         virtual ~L1KalmanComb(){}
  
@@ -83,7 +83,7 @@ class L1KalmanComb : public TrackFitGeneric{
 
 	unsigned getNextLayer( unsigned state_layer, unsigned next_stub_layer );
 	std::vector<const Stub *> getNextLayerStubs( const kalmanState *state, std::vector<const Stub *> &stubs, unsigned &next_layer );
-	virtual double getRofState( unsigned layerId, const vector<double> &xa )const{ return 0;}
+	virtual double getRofState( unsigned layerId, const std::vector<double> &xa ) const { return 0;}
 	std::vector<const kalmanState *> doKF( unsigned nItr, const std::vector<const kalmanState *> &states, std::vector<const Stub *> stubs, const TP *tpa );
 
 	void fillCandHists( const kalmanState &state, const TP *tpa=0 );

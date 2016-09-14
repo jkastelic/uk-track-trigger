@@ -9,7 +9,7 @@
 #include <utility>
 #include <cmath>
 
-using namespace std;
+
 
 class DataCorrection {
 
@@ -44,8 +44,10 @@ public:
   //--- size programmed below, and an integer indicating how many values of the original bend
   //--- were grouped together into this single value of the degraded bend.
   static void ConvertBarrelBend(float bend, unsigned int layer,
-			        float& degradedBend, bool& reject, unsigned int& num) {
-
+		float& degradedBend, bool& reject, unsigned int& num)
+	{
+		using namespace std;
+		
     // Get degraded bend value
     DataCorrection::ConvertBarrelBendWork(bend, layer, degradedBend, reject);
 
@@ -53,8 +55,9 @@ public:
     // This helps understand the loss in bend resolution caused by the bit encoding.
 
     // Stores number of bend values merged into a single one by bit encoding, for each layer & bend value.
-    static vector< map<float, unsigned int> > barrelNums(30); // Dimension to larger than number of barrel laye
-    map<float, unsigned int>& storedNum = barrelNums[layer];
+    static std::vector< std::map<float, unsigned int> > barrelNums(30); // Dimension to larger than number of barrel laye
+    std::map<float, unsigned int>& storedNum = barrelNums[layer];
+		
     if (storedNum.find(degradedBend) != storedNum.end()) {
 
       // Calculation already done, so just retrieve it.
@@ -70,7 +73,7 @@ public:
       int maxAcceptedI = -1;
       float degradedBendI;
       bool rejectI;
-      set<float> uniqueDegradedBends;
+      std::set<float> uniqueDegradedBends;
       for (int i = -maxI; i <= maxI; i++) {
 	float bendI = 0.5*float(i);
 	DataCorrection::ConvertBarrelBendWork(bendI, layer, degradedBendI, rejectI);
@@ -103,7 +106,9 @@ public:
   //--- were grouped together into this single value of the degraded bend.
 
   static void ConvertEndcapBend(float bend, unsigned int ring,
-   			        float& degradedBend, bool& reject, unsigned int& num) {
+   	float& degradedBend, bool& reject, unsigned int& num)
+	{
+    using namespace std;
 
     // Get degraded bend value
     DataCorrection::ConvertEndcapBendWork(bend, ring, degradedBend, reject);
@@ -112,9 +117,9 @@ public:
     // This helps understand the loss in bend resolution caused by the bit encoding.
 
     // Stores number of bend values merged into a single one by bit encoding, for each ring & bend value
-    static vector< map<float, unsigned int> > endcapNums(30); // Dimension to larger than number of endcap ring
+    static std::vector< std::map<float, unsigned int> > endcapNums(30); // Dimension to larger than number of endcap ring
+    std::map<float, unsigned int>& storedNum = endcapNums[ring];
 
-    map<float, unsigned int>& storedNum = endcapNums[ring];
     if (storedNum.find(degradedBend) != storedNum.end()) {
 
       // Calculation already done, so just retrieve it.
@@ -168,8 +173,10 @@ private:
   //--- size programmed below.
 
   static void ConvertBarrelBendWork(float bend, unsigned int layer,
-   			            float& degradedBend, bool& reject) {
-
+		float& degradedBend, bool& reject)
+	{
+    using namespace std;
+    
     float b = fabs(bend);
     int   s = (bend > 0) ? 1 : -1;
 
@@ -216,8 +223,10 @@ private:
   //--- size programmed below.
 
   static void ConvertEndcapBendWork(float bend, unsigned int ring,
-   			            float& degradedBend, bool& reject) {
-
+		float& degradedBend, bool& reject)
+	{
+    using namespace std;
+    
     float b = fabs(bend);
     int   s = (bend > 0) ? 1 : -1;
 

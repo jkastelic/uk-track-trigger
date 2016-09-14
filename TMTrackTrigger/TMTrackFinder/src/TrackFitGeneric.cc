@@ -21,7 +21,7 @@
  
 //=== Set configuration parameters.
  
-TrackFitGeneric::TrackFitGeneric( const Settings* settings, const string &fitterName ) : settings_(settings), fitterName_(fitterName), nDupStubs_(0) {
+TrackFitGeneric::TrackFitGeneric( const Settings* settings, const std::string &fitterName ) : settings_(settings), fitterName_(fitterName), nDupStubs_(0) {
 }
  
  

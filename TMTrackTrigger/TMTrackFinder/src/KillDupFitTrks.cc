@@ -14,7 +14,7 @@ void KillDupFitTrks::init(const Settings* settings, unsigned int dupTrkAlg)
 
 //=== Eliminate duplicate tracks from the input collection, and so return a reduced list of tracks.
 
-vector<L1fittedTrack> KillDupFitTrks::filter(const vector<L1fittedTrack>& vecTracks) const
+std::vector<L1fittedTrack> KillDupFitTrks::filter(const std::vector<L1fittedTrack>& vecTracks) const
 {
   if (dupTrkAlg_ == 0) {
 
@@ -29,7 +29,7 @@ vector<L1fittedTrack> KillDupFitTrks::filter(const vector<L1fittedTrack>& vecTra
     // We are running duplicate removal. It makes no sense to run this on tracks marked as "not accepted"
     // by the fitter, so remove them before proceeding.
 
-    vector<L1fittedTrack> filtVecTracks;
+    std::vector<L1fittedTrack> filtVecTracks;
     for (const L1fittedTrack& trk : vecTracks) {
       if (trk.accepted()) filtVecTracks.push_back(trk);
     }
@@ -54,8 +54,10 @@ vector<L1fittedTrack> KillDupFitTrks::filter(const vector<L1fittedTrack>& vecTra
 //=== tracker by adding the track's sector number to memory "htCellUsed" below.
 
 
-vector<L1fittedTrack> KillDupFitTrks::filterAlg50(const vector<L1fittedTrack>& tracks) const
+std::vector<L1fittedTrack> KillDupFitTrks::filterAlg50(const std::vector<L1fittedTrack>& tracks) const
 {
+  using namespace std;
+  
   // Make a first pass through the tracks, doing initial identification of duplicate tracks.
   map<const L1fittedTrack*, bool> consistentMap; 
   set< pair<unsigned int, unsigned int> > htCellUsed;

@@ -9,7 +9,6 @@
 #include <map>
 //#include <utility>
 
-using namespace std;
 
 //=== This represents a fitted L1 track candidate found in 3 dimensions.
 //===
@@ -45,7 +44,7 @@ public:
     if ( trkMap_.find(nPar) == trkMap_.end() ) {
       // Only bother to store fitted track if it is valid.
       if (trk.accepted()) {
-	trkMap_.insert( pair<unsigned int, L1fittedTrack>(nPar, trk) );
+	trkMap_.insert( std::pair<unsigned int, L1fittedTrack>(nPar, trk) );
       }
     } else {
       throw cms::Exception("L1fittedTrk4and5:: You tried to store two tracks with the same number ofhelix parameters.");
@@ -79,7 +78,7 @@ private:
 
   // Fitted tracks obtained with 4 or 5 parameter helix fits.
   // The first parameter in the map is the number of parameters used for the fit.
-  map<unsigned int, L1fittedTrack> trkMap_;
+  std::map<unsigned int, L1fittedTrack> trkMap_;
 
   // Hough transform (pre-fit) track candidate.
   L1track3D trkHT_;
