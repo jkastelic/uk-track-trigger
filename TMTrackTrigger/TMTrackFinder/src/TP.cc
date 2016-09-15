@@ -1,4 +1,4 @@
-#include "SimGeneral/TrackingAnalysis/interface/TrackingParticleSelector.h"
+#include "SimTracker/Common/interface/TrackingParticleSelector.h"
 #include "TMTrackTrigger/TMTrackFinder/interface/TP.h"
 #include "TMTrackTrigger/TMTrackFinder/interface/Stub.h"
 #include "TMTrackTrigger/TMTrackFinder/interface/Settings.h"
@@ -55,6 +55,7 @@ void TP::fillTruth(const vector<Stub>& vStubs) {
 
 void TP::fillUse() {
 
+  const bool use_no_OOT_PU_particles = false;
   const bool useOnlyTPfromPhysicsCollisionFalse = false;
   // Use looser cuts here those those used for tracking efficiency measurement.
   // Keep only those TP that have a chance (allowing for finite track resolution) of being reconstructed as L1 tracks. L1 tracks not matching these TP will be defined as fake.
@@ -74,6 +75,7 @@ void TP::fillUse() {
 							   max(35.0, settings_->genMaxVertZ()),
 							   0,
 							   useOnlyTPfromPhysicsCollisionFalse,
+                                                           use_no_OOT_PU_particles,
 							   true,
     							   false,
     							   genPdgIdsAll);
@@ -88,6 +90,7 @@ void TP::fillUseForEff() {
 
   useForEff_ = false;
   if (use_) {
+    const bool use_no_OOT_PU_particles = false;
     const bool useOnlyTPfromPhysicsCollision = true;
     static TrackingParticleSelector trackingParticleSelector( 
 							     settings_->genMinPt(),
@@ -97,11 +100,12 @@ void TP::fillUseForEff() {
 							     settings_->genMaxVertZ(),
 							     0,
 							     useOnlyTPfromPhysicsCollision,
+                                                             use_no_OOT_PU_particles,
 							     true,
 							     false,
 							     settings_->genPdgIds());
-
     const TrackingParticlePtr tp_ptr(*this); // cast to base class.
+
     useForEff_ = trackingParticleSelector(*tp_ptr);
   }
 }

@@ -43,7 +43,7 @@ class kalmanState{
 
 	static bool orderReducedChi2(const kalmanState *left, const kalmanState *right);
 	static bool order(const kalmanState *left, const kalmanState *right);
-	void dump( ostream &os, const TP *tp=0, bool all=0 )const;
+	void dump( std::ostream &os, const TP *tp=0, bool all=0 )const;
 	void setChi2( double p ){ chi2_ = p; }
 
     private:
