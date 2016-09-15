@@ -25,7 +25,7 @@ public:
 
 private:
 
-  typedef std::vector< TTTrack< Ref_PixelDigi_ > > TTTrackCollection;
+/*CMSSW_8_MIGRATION*/ //   typedef std::vector< TTTrack< Ref_PixelDigi_ > > TTTrackCollection;
   typedef std::vector<l1t::HardwareStub>           HwStubCollection;
   typedef std::vector<l1t::HardwareTrack>          HwTrackCollection;
 

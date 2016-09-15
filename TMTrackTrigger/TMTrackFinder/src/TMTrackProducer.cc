@@ -47,13 +47,13 @@ TMTrackProducer::TMTrackProducer(const edm::ParameterSet& iConfig) {
 
   //--- Define EDM output to be written to file (if required) 
 
-  // L1 tracks found by Hough Transform without any track fit.
-  produces< std::vector< TTTrack< Ref_PixelDigi_ > > >( "TML1TracksHT" ).setBranchAlias("TML1TracksHT");
-  // L1 tracks after track fit by each of the fitting algorithms under study
-  for (const string& fitterName : settings_->trackFitters()) {
-    string edmName = string("TML1Tracks") + fitterName;
-    produces< std::vector< TTTrack< Ref_PixelDigi_ > > >(edmName).setBranchAlias(edmName);
-  }
+/*CMSSW_8_MIGRATION*/ //  // L1 tracks found by Hough Transform without any track fit.
+/*CMSSW_8_MIGRATION*/ //  produces< std::vector< TTTrack< Ref_PixelDigi_ > > >( "TML1TracksHT" ).setBranchAlias("TML1TracksHT");
+/*CMSSW_8_MIGRATION*/ //  // L1 tracks after track fit by each of the fitting algorithms under study
+/*CMSSW_8_MIGRATION*/ //  for (const string& fitterName : settings_->trackFitters()) {
+/*CMSSW_8_MIGRATION*/ //    string edmName = string("TML1Tracks") + fitterName;
+/*CMSSW_8_MIGRATION*/ //    produces< std::vector< TTTrack< Ref_PixelDigi_ > > >(edmName).setBranchAlias(edmName);
+/*CMSSW_8_MIGRATION*/ //  }
   // Stubs for used by comparison software, to compare hardware with software.
   produces<HwStubCollection>("OutputSimStub").setBranchAlias("OutputSimStubs");
   produces<HwStubCollection>("AllOutputSimStub").setBranchAlias("AllOutputSimStubs");
