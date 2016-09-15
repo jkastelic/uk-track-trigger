@@ -1,4 +1,5 @@
 <environment>
+  <!--
   <library   file="*.cc" name="TMTrackTriggerTMTrackFinderTests">
     <flags   EDM_PLUGIN="1"/>
     <use   name="FWCore/Framework"/>
@@ -46,4 +47,5 @@
   <use   name="CommonTools/UtilAlgos"/>
     <flags   CXXFLAGS="-g -O0"/>
   </library>
+  -->
 </environment>

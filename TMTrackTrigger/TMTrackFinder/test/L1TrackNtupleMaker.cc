@@ -20,7 +20,7 @@
 ///////////////////////
 // DATA FORMATS HEADERS
 #include "DataFormats/Common/interface/Handle.h"
-#include "DataFormats/Common/interface/EDProduct.h"
+#include "DataFormats/Common/interface/EDProductfwd.h"
 #include "DataFormats/Common/interface/Ref.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
