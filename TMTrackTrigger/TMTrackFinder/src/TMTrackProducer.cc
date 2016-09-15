@@ -9,7 +9,7 @@
 #include <TMTrackTrigger/TMTrackFinder/interface/TrackFitGeneric.h>
 #include <TMTrackTrigger/TMTrackFinder/interface/L1fittedTrack.h>
 #include <TMTrackTrigger/TMTrackFinder/interface/L1fittedTrk4and5.h>
-#include <TMTrackTrigger/TMTrackFinder/interface/ConverterToTTTrack.h>
+/*CMSSW_8_MIGRATION*/ // #include <TMTrackTrigger/TMTrackFinder/interface/ConverterToTTTrack.h>
 #include "TMTrackTrigger/TMTrackFinder/interface/HTcell.h"
 #include "TMTrackTrigger/TMTrackFinder/interface/DemoOutput.h"
 
@@ -100,26 +100,26 @@ void TMTrackProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   matrix<HTpair>  mHtPairs(settings_->numPhiSectors(), settings_->numEtaRegions());
 
   //=== Initialization
-  // Create utility for converting L1 tracks from our private format to official CMSSW EDM format.
-  const ConverterToTTTrack converter(settings_);
-  // Storage for EDM L1 track collection to be produced from Hough transform output (no fit).
-  std::auto_ptr<TTTrackCollection>  htTTTracksForOutput(new TTTrackCollection);
-  // Storage for EDM L1 track collection to be produced from fitted tracks (one for each fit algorithm being used).
-  // auto_ptr cant be stored in std containers, so use C one, together with map noting which element corresponds to which algorithm.
-  const unsigned int nFitAlgs = settings_->trackFitters().size();
-  std::auto_ptr<TTTrackCollection> allFitTTTracksForOutput[nFitAlgs]; 
-  map<string, unsigned int> locationInsideArray;
-  unsigned int ialg = 0;
-  for (const string& fitterName : settings_->trackFitters()) {
-    std::auto_ptr<TTTrackCollection> fitTTTracksForOutput(new TTTrackCollection);
-    allFitTTTracksForOutput[ialg] =  fitTTTracksForOutput;
-    locationInsideArray[fitterName] = ialg++;
-  }
+/*CMSSW_8_MIGRATION*/ //  // Create utility for converting L1 tracks from our private format to official CMSSW EDM format.
+/*CMSSW_8_MIGRATION*/ //  const ConverterToTTTrack converter(settings_);
+/*CMSSW_8_MIGRATION*/ //  // Storage for EDM L1 track collection to be produced from Hough transform output (no fit).
+/*CMSSW_8_MIGRATION*/ //  std::auto_ptr<TTTrackCollection>  htTTTracksForOutput(new TTTrackCollection);
+/*CMSSW_8_MIGRATION*/ //    // Storage for EDM L1 track collection to be produced from fitted tracks (one for each fit algorithm being used).
+/*CMSSW_8_MIGRATION*/ //    // auto_ptr cant be stored in std containers, so use C one, together with map noting which element corresponds to which algorithm.
+/*CMSSW_8_MIGRATION*/ //    const unsigned int nFitAlgs = settings_->trackFitters().size();
+/*CMSSW_8_MIGRATION*/ //    std::auto_ptr<TTTrackCollection> allFitTTTracksForOutput[nFitAlgs]; 
+/*CMSSW_8_MIGRATION*/ //    map<string, unsigned int> locationInsideArray;
+/*CMSSW_8_MIGRATION*/ //    unsigned int ialg = 0;
+/*CMSSW_8_MIGRATION*/ //    for (const string& fitterName : settings_->trackFitters()) {
+/*CMSSW_8_MIGRATION*/ //      std::auto_ptr<TTTrackCollection> fitTTTracksForOutput(new TTTrackCollection);
+/*CMSSW_8_MIGRATION*/ //      allFitTTTracksForOutput[ialg] =  fitTTTracksForOutput;
+/*CMSSW_8_MIGRATION*/ //      locationInsideArray[fitterName] = ialg++;
+/*CMSSW_8_MIGRATION*/ //    }
   // Storage for EDM stub collections to be produced for comparison of hardware & software.
   std::auto_ptr<HwStubCollection>     outputSimStubs(new HwStubCollection);
   std::auto_ptr<HwStubCollection>  allOutputSimStubs(new HwStubCollection);
-  std::auto_ptr<HwTrackCollection>         effTracks(new HwTrackCollection);
-  std::auto_ptr<HwTrackCollection>     algoEffTracks(new HwTrackCollection);
+/*CMSSW_8_MIGRATION*/ //    std::auto_ptr<HwTrackCollection>         effTracks(new HwTrackCollection);
+/*CMSSW_8_MIGRATION*/ //    std::auto_ptr<HwTrackCollection>     algoEffTracks(new HwTrackCollection);
 
   //=== Loop over matrix of Hough-Transform arrays, filling them with stubs.
 
@@ -162,10 +162,10 @@ void TMTrackProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       // Convert these tracks to EDM format for output (not used by Histos class).
       const vector<L1track3D>& vecTrk3D = htPair.trackCands3D();
       ntracks += vecTrk3D.size();
-      for (const L1track3D& trk : vecTrk3D) {
-        TTTrack< Ref_PixelDigi_ > htTTTrack = converter.makeTTTrack(trk, iPhiSec, iEtaReg);
-        htTTTracksForOutput->push_back( htTTTrack );
-      }
+/*CMSSW_8_MIGRATION*/ //      for (const L1track3D& trk : vecTrk3D) {
+/*CMSSW_8_MIGRATION*/ //         TTTrack< Ref_PixelDigi_ > htTTTrack = converter.makeTTTrack(trk, iPhiSec, iEtaReg);
+/*CMSSW_8_MIGRATION*/ //         htTTTracksForOutput->push_back( htTTTrack );
+/*CMSSW_8_MIGRATION*/ //      }
     }
   }
 
@@ -208,10 +208,10 @@ void TMTrackProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	  fittedTracks.push_back(std::make_pair(fitterName, fitTrk));
 	  // Convert these fitted tracks to EDM format for output (not used by Histos class).
 	  // Only do this for valid fitted tracks, meaning that these EDM tracks do not correspond 1 to 1 with fittedTracks.
-	  if (fitTrk.accepted()) {
-	    TTTrack< Ref_PixelDigi_ > fitTTTrack = converter.makeTTTrack(fitTrk, iPhiSec, iEtaReg);
-	    allFitTTTracksForOutput[locationInsideArray[fitterName]]->push_back(fitTTTrack);
-	  }
+/*CMSSW_8_MIGRATION*/ //	  if (fitTrk.accepted()) {
+/*CMSSW_8_MIGRATION*/ //	    TTTrack< Ref_PixelDigi_ > fitTTTrack = converter.makeTTTrack(fitTrk, iPhiSec, iEtaReg);
+/*CMSSW_8_MIGRATION*/ //	    allFitTTTracksForOutput[locationInsideArray[fitterName]]->push_back(fitTTTrack);
+/*CMSSW_8_MIGRATION*/ //	  }
 	}
       }
     }
@@ -250,22 +250,22 @@ void TMTrackProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
     demoOutput.getStubCollection(mHtPairs,
    	   	                 allOutputSimStubs, outputSimStubs);
 
-    // Fill effTracks and algoEffTracks with stubs on tracking particles stored in HardwareTrack class.
-    // The former contains all TP, whilst the latter contains only those uses for algorithmic efficiency measurment.
-    demoOutput.getTPstubCollection(mHtPairs, mSectors, vTPs,
-				   effTracks, algoEffTracks);
+/*CMSSW_8_MIGRATION*/ //    // Fill effTracks and algoEffTracks with stubs on tracking particles stored in HardwareTrack class.
+/*CMSSW_8_MIGRATION*/ //    // The former contains all TP, whilst the latter contains only those uses for algorithmic efficiency measurment.
+/*CMSSW_8_MIGRATION*/ //    demoOutput.getTPstubCollection(mHtPairs, mSectors, vTPs,
+/*CMSSW_8_MIGRATION*/ //				   effTracks, algoEffTracks);
   }
 
-  //=== Store output EDM track and hardware stub collections.
-  iEvent.put(htTTTracksForOutput,  "TML1TracksHT");
-  for (const string& fitterName : settings_->trackFitters()) {
-    string edmName = string("TML1Tracks") + fitterName;
-    iEvent.put(allFitTTTracksForOutput[locationInsideArray[fitterName]], edmName);
-  }
+/*CMSSW_8_MIGRATION*/ //  //=== Store output EDM track and hardware stub collections.
+/*CMSSW_8_MIGRATION*/ //  iEvent.put(htTTTracksForOutput,  "TML1TracksHT");
+/*CMSSW_8_MIGRATION*/ //  for (const string& fitterName : settings_->trackFitters()) {
+/*CMSSW_8_MIGRATION*/ //    string edmName = string("TML1Tracks") + fitterName;
+/*CMSSW_8_MIGRATION*/ //    iEvent.put(allFitTTTracksForOutput[locationInsideArray[fitterName]], edmName);
+/*CMSSW_8_MIGRATION*/ //  }
   iEvent.put(outputSimStubs,       "OutputSimStub");
   iEvent.put(allOutputSimStubs, "AllOutputSimStub");
-  iEvent.put(effTracks,          "EfficiencyTrack");
-  iEvent.put(algoEffTracks,  "AlgoEfficiencyTrack");
+/*CMSSW_8_MIGRATION*/ //  iEvent.put(effTracks,          "EfficiencyTrack");
+/*CMSSW_8_MIGRATION*/ //  iEvent.put(algoEffTracks,  "AlgoEfficiencyTrack");
 }
 
 

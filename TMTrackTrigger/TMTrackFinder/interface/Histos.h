@@ -3,7 +3,7 @@
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
-#include <TMTrackTrigger/TMTrackFinder/interface/Settings.h>
+#include "TMTrackTrigger/TMTrackFinder/interface/Settings.h"
 
 #include "boost/numeric/ublas/matrix.hpp"
 

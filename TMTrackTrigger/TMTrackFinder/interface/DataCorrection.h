@@ -10,7 +10,6 @@
 #include <cmath>
 
 
-
 class DataCorrection {
 
   /*
